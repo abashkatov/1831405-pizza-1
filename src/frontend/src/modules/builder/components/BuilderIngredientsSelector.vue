@@ -5,19 +5,12 @@
       <div class="sheet__content ingridients">
         <div class="ingridients__sauce">
           <p>Основной соус:</p>
-          <label
-            v-for="sauce in sauces"
-            :key="sauce.id"
-            class="radio ingridients__input"
-          >
-            <input
-              type="radio"
-              name="sauce"
-              :value="sauce.alias"
-              :checked="sauce.id === 1"
-            />
-            <span>{{ sauce.name }}</span>
-          </label>
+          <RadioButton
+            name="sauce"
+            :items="sauceRadioButtons"
+            labelClass="ingridients__input"
+            @changeItem="changeSauce"
+          />
         </div>
         <div class="ingridients__filling">
           <p>Начинка:</p>
@@ -63,16 +56,44 @@
 </template>
 
 <script>
+import RadioButton from "../../../common/components/RadioButton";
 export default {
   name: "BuilderIngredientsSelector",
+  components: { RadioButton },
   props: {
     sauces: {
-      type: Object,
+      type: Array,
       required: true,
     },
     ingredients: {
-      type: Object,
+      type: Array,
       required: true,
+    },
+    selectedIngredients: {
+      type: Array,
+      required: true,
+    },
+  },
+  computed: {
+    sauceRadioButtons: function () {
+      return this.sauces.map(function (sauce) {
+        return {
+          id: sauce.id,
+          alias: sauce.alias,
+          name: sauce.name,
+        };
+      });
+    },
+    canUp: function () {
+      return this.selectedIngredients.length < 3;
+    },
+    canDown: function () {
+      return this.selectedIngredients.length > 0;
+    },
+  },
+  methods: {
+    changeSauce(id) {
+      this.$emit("changeSauce", id);
     },
   },
 };

@@ -15,6 +15,7 @@
             :value="dough.value"
             class="visually-hidden"
             :checked="dough.id === 1"
+            @click="$emit('changeDough', dough)"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}}</span>
@@ -29,7 +30,7 @@ export default {
   name: "BuilderDoughSelector",
   props: {
     doughs: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },

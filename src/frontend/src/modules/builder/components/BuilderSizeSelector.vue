@@ -29,7 +29,7 @@ export default {
   name: "BuilderSizeSelector",
   props: {
     sizes: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },
