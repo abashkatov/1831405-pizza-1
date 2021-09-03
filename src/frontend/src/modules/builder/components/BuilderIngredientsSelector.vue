@@ -20,33 +20,14 @@
               :key="ingredient.id"
               class="ingridients__item"
             >
-              <span class="filling" :class="`filling--${ingredient.alias}`">
-                {{ ingredient.title }}
-              </span>
-              <div class="counter counter--orange ingridients__counter">
-                <button
-                  type="button"
-                  class="
-                    counter__button
-                    counter__button--disabled
-                    counter__button--minus
-                  "
-                >
-                  <span class="visually-hidden">Меньше</span>
-                </button>
-                <input
-                  type="text"
-                  name="counter"
-                  class="counter__input"
-                  value="0"
-                />
-                <button
-                  type="button"
-                  class="counter__button counter__button--plus"
-                >
-                  <span class="visually-hidden">Больше</span>
-                </button>
-              </div>
+              <ItemCounter
+                :classes="`filling filling--${ingredient.alias}`"
+                :title="ingredient.name"
+                counterClass="ingridients__counter"
+                :item-id="ingredient.id"
+                :itemCount="ingredient.count"
+                @countChanged="ingridientsChanged"
+              />
             </li>
           </ul>
         </div>
@@ -57,19 +38,16 @@
 
 <script>
 import RadioButton from "../../../common/components/RadioButton";
+import ItemCounter from "../../../common/components/ItemCounter";
 export default {
   name: "BuilderIngredientsSelector",
-  components: { RadioButton },
+  components: { ItemCounter, RadioButton },
   props: {
     sauces: {
       type: Array,
       required: true,
     },
     ingredients: {
-      type: Array,
-      required: true,
-    },
-    selectedIngredients: {
       type: Array,
       required: true,
     },
@@ -84,16 +62,14 @@ export default {
         };
       });
     },
-    canUp: function () {
-      return this.selectedIngredients.length < 3;
-    },
-    canDown: function () {
-      return this.selectedIngredients.length > 0;
-    },
   },
   methods: {
     changeSauce(id) {
       this.$emit("changeSauce", id);
+    },
+    ingridientsChanged(id, newCount) {
+      console.log("ingridientsChanged " + id + " " + newCount);
+      this.$emit("ingridientsChanged", id, newCount);
     },
   },
 };

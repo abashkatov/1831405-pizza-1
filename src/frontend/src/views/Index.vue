@@ -10,9 +10,8 @@
           <BuilderIngredientsSelector
             :sauces="sauces"
             :ingredients="ingredients"
-            :selectedIngredients="selectedIngredients"
             @changeSauce="changeSauce"
-            @changeIngredients="changeIngredients"
+            @ingridientsChanged="changeIngredients"
           />
           <div class="content__pizza">
             <label class="input">
@@ -55,11 +54,13 @@ export default {
       doughs: dough,
       sizes: sizes,
       sauces: sauces,
-      ingredients: ingredients,
+      ingredients: ingredients.map(function (ingridient) {
+        ingridient.count = 0;
+        return ingridient;
+      }),
       selectedDough: dough[0],
       selectedSize: sizes[0],
       selectedSauce: sauces[0],
-      selectedIngredients: [],
     };
   },
   methods: {
@@ -73,8 +74,12 @@ export default {
       const sauces = this.sauces.filter((sauce) => sauce.id === id);
       this.selectedSauce = sauces.pop();
     },
-    changeIngredients: function (ingredients) {
-      this.selectedIngredients = ingredients;
+    changeIngredients: function (itemId, newCount) {
+      this.ingredients.forEach(function (ingridient) {
+        if (ingridient.id === itemId) {
+          ingridient.count = newCount;
+        }
+      });
     },
   },
 };
