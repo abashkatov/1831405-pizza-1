@@ -22,7 +22,11 @@
                 placeholder="Введите название пиццы"
               />
             </label>
-            <BuilderPizzaView :doughs="selectedDough" :sauce="selectedSauce" />
+            <BuilderPizzaView
+              :doughs="selectedDough"
+              :sauce="selectedSauce"
+              :ingredients="ingredients"
+            />
             <BuilderPriceCounter />
           </div>
         </div>

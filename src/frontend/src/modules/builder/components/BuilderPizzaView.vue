@@ -2,9 +2,12 @@
   <div class="content__constructor">
     <div :class="`pizza pizza--foundation--${doughsSize}-${sauce.alias}`">
       <div class="pizza__wrapper">
-        <div class="pizza__filling pizza__filling--ananas"></div>
-        <div class="pizza__filling pizza__filling--bacon"></div>
-        <div class="pizza__filling pizza__filling--cheddar"></div>
+        <div
+          v-for="(ingridient, key) in selectedIngridients"
+          class="pizza__filling"
+          :key="key"
+          :class="ingridient"
+        />
       </div>
     </div>
   </div>
@@ -14,14 +17,41 @@
 export default {
   name: "BuilderPizzaView",
   props: {
-    doughs: Object,
-    // size: Object,
-    sauce: Object,
-    // ingredients: Array,
+    doughs: {
+      type: Object,
+      required: true,
+    },
+    sauce: {
+      type: Object,
+      required: true,
+    },
+    ingredients: {
+      type: Array,
+      required: true,
+    },
   },
   computed: {
     doughsSize: function () {
       return this.doughs.alias === "light" ? "small" : "big";
+    },
+    selectedIngridients: function () {
+      const selectedIngridients = [];
+      this.ingredients.forEach((ingridient) => {
+        const baseClass = "pizza__filling--" + ingridient.alias,
+          secondClass = "pizza__filling--second",
+          thirdClass = "pizza__filling--third";
+
+        if (ingridient.count > 0) {
+          selectedIngridients.push([baseClass]);
+        }
+        if (ingridient.count > 1) {
+          selectedIngridients.push([baseClass, secondClass]);
+        }
+        if (ingridient.count > 2) {
+          selectedIngridients.push([baseClass, thirdClass]);
+        }
+      });
+      return selectedIngridients;
     },
   },
 };

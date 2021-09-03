@@ -66,13 +66,11 @@ export default {
   methods: {
     plusItem() {
       if (this.itemCount < 3) {
-        console.log("send plus");
         this.$emit("countChanged", this.itemId, this.itemCount + 1);
       }
     },
     minusItem() {
       if (this.itemCount > 0) {
-        console.log("send minus");
         this.$emit("countChanged", this.itemId, this.itemCount - 1);
       }
     },

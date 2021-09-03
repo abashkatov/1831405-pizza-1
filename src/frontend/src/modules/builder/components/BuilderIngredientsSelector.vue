@@ -68,7 +68,6 @@ export default {
       this.$emit("changeSauce", id);
     },
     ingridientsChanged(id, newCount) {
-      console.log("ingridientsChanged " + id + " " + newCount);
       this.$emit("ingridientsChanged", id, newCount);
     },
   },
