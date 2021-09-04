@@ -20,14 +20,19 @@
               :key="ingredient.id"
               class="ingridients__item"
             >
-              <ItemCounter
-                :classes="`filling filling--${ingredient.alias}`"
-                :title="ingredient.name"
-                counterClass="ingridients__counter"
-                :item-id="ingredient.id"
-                :itemCount="ingredient.count"
-                @countChanged="ingridientsChanged"
-              />
+              <AppDrag
+                :transfer-data="ingredient"
+                :is-draggable-prop="ingredient.count < 3"
+              >
+                <ItemCounter
+                  :classes="`filling filling--${ingredient.alias}`"
+                  :title="ingredient.name"
+                  counterClass="ingridients__counter"
+                  :item-id="ingredient.id"
+                  :itemCount="ingredient.count"
+                  @countChanged="ingridientsChanged"
+                />
+              </AppDrag>
             </li>
           </ul>
         </div>
@@ -39,9 +44,10 @@
 <script>
 import RadioButton from "../../../common/components/RadioButton";
 import ItemCounter from "../../../common/components/ItemCounter";
+import AppDrag from "../../../common/components/AppDrag";
 export default {
   name: "BuilderIngredientsSelector",
-  components: { ItemCounter, RadioButton },
+  components: { AppDrag, ItemCounter, RadioButton },
   props: {
     sauces: {
       type: Array,

@@ -1,5 +1,5 @@
 <template>
-  <div class="content__constructor">
+  <AppDrop class="content__constructor" @drop="addIngredient">
     <div :class="`pizza pizza--foundation--${doughsSize}-${sauce.alias}`">
       <div class="pizza__wrapper">
         <div
@@ -10,12 +10,14 @@
         />
       </div>
     </div>
-  </div>
+  </AppDrop>
 </template>
 
 <script>
+import AppDrop from "../../../common/components/AppDrop";
 export default {
   name: "BuilderPizzaView",
+  components: { AppDrop },
   props: {
     doughs: {
       type: Object,
@@ -52,6 +54,11 @@ export default {
         }
       });
       return selectedIngridients;
+    },
+  },
+  methods: {
+    addIngredient(ingredient) {
+      this.$emit("ingridientsChanged", ingredient.id, ingredient.count + 1);
     },
   },
 };

@@ -26,6 +26,7 @@
               :doughs="selectedDough"
               :sauce="selectedSauce"
               :ingredients="ingredients"
+              @ingridientsChanged="changeIngredients"
             />
             <BuilderPriceCounter />
           </div>

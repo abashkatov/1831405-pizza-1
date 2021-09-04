@@ -8,6 +8,7 @@
         type="button"
         class="counter__button counter__button--minus"
         :class="{ 'counter__button--disabled': isMinusDisabled }"
+        :disabled="isMinusDisabled"
         @click="minusItem"
       >
         <span class="visually-hidden">Меньше</span>
@@ -22,6 +23,7 @@
         type="button"
         class="counter__button counter__button--plus"
         :class="{ 'counter__button--disabled': isPlusDisabled }"
+        :disabled="isPlusDisabled"
         @click="plusItem"
       >
         <span class="visually-hidden">Больше</span>
