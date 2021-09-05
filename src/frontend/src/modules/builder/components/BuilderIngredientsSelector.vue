@@ -22,7 +22,7 @@
             >
               <AppDrag
                 :transfer-data="ingredient"
-                :is-draggable-prop="ingredient.count < 3"
+                :is-draggable="ingredient.count < 3"
               >
                 <ItemCounter
                   :classes="`filling filling--${ingredient.alias}`"
