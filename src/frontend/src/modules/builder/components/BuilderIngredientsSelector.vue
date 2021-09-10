@@ -10,6 +10,7 @@
             :items="sauceRadioButtons"
             labelClass="ingridients__input"
             @changeItem="changeSauce"
+            :selected-id="selectedSauce.id"
           />
         </div>
         <div class="ingridients__filling">
@@ -51,6 +52,10 @@ export default {
   props: {
     sauces: {
       type: Array,
+      required: true,
+    },
+    selectedSauce: {
+      type: Object,
       required: true,
     },
     ingredients: {

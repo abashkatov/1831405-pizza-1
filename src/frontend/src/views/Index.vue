@@ -5,10 +5,19 @@
       <form action="#" method="post">
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
-          <BuilderDoughSelector :doughs="doughs" @changeDough="changeDough" />
-          <BuilderSizeSelector :sizes="sizes" @changeSize="changeSize" />
+          <BuilderDoughSelector
+            :doughs="doughs"
+            :selectedDough="selectedDough"
+            @changeDough="changeDough"
+          />
+          <BuilderSizeSelector
+            :sizes="sizes"
+            @changeSize="changeSize"
+            :selected-size="selectedSize"
+          />
           <BuilderIngredientsSelector
             :sauces="sauces"
+            :selected-sauce="selectedSauce"
             :ingredients="ingredients"
             @changeSauce="changeSauce"
             @ingridientsChanged="changeIngredients"

@@ -10,7 +10,7 @@
         type="radio"
         :name="name"
         :value="item.alias"
-        :checked="item.id === 1"
+        :checked="item.id === selectedId"
         @click="$emit('changeItem', item.id)"
       />
       <span>{{ item.name }}</span>
@@ -32,6 +32,10 @@ export default {
     },
     labelClass: {
       type: String,
+      required: true,
+    },
+    selectedId: {
+      type: Number,
       required: true,
     },
   },

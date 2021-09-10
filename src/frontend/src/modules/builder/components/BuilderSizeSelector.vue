@@ -14,8 +14,9 @@
             type="radio"
             name="diameter"
             :value="size.alias"
-            :checked="size.id === 1"
+            :checked="size.id === selectedSize.id"
             class="visually-hidden"
+            @click="$emit('changeSize', size)"
           />
           <span>{{ size.name }}</span>
         </label>
@@ -30,6 +31,10 @@ export default {
   props: {
     sizes: {
       type: Array,
+      required: true,
+    },
+    selectedSize: {
+      type: Object,
       required: true,
     },
   },
