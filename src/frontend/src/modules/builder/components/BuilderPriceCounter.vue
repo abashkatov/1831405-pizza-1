@@ -1,6 +1,6 @@
 <template>
   <div class="content__result">
-    <p>Итого: 0 ₽</p>
+    <p>Итого: {{ totalPrice }} ₽</p>
     <button type="button" class="button button--disabled" disabled>
       Готовьте!
     </button>
@@ -10,6 +10,12 @@
 <script>
 export default {
   name: "BuilderPriceCounter",
+  props: {
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+  },
 };
 </script>
 

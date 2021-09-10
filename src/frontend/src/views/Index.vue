@@ -20,7 +20,7 @@
             :selected-sauce="selectedSauce"
             :ingredients="ingredients"
             @changeSauce="changeSauce"
-            @ingridientsChanged="changeIngredients"
+            @ingredientsChanged="changeIngredients"
           />
           <div class="content__pizza">
             <label class="input">
@@ -35,9 +35,9 @@
               :doughs="selectedDough"
               :sauce="selectedSauce"
               :ingredients="ingredients"
-              @ingridientsChanged="changeIngredients"
+              @ingredientsChanged="changeIngredients"
             />
-            <BuilderPriceCounter />
+            <BuilderPriceCounter :total-price="price" />
           </div>
         </div>
       </form>
@@ -76,6 +76,19 @@ export default {
       selectedSize: sizes[0],
       selectedSauce: sauces[0],
     };
+  },
+  computed: {
+    price: function () {
+      const ingredientsPrice = this.ingredients.reduce(
+        (prev, cur) => prev + cur.price * cur.count,
+        0
+      );
+
+      return (
+        this.selectedSize.multiplier *
+        (this.selectedDough.price + this.selectedSauce.price + ingredientsPrice)
+      );
+    },
   },
   methods: {
     changeDough: function (dough) {

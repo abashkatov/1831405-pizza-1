@@ -3,7 +3,7 @@
     <div :class="`pizza pizza--foundation--${doughsSize}-${sauce.alias}`">
       <div class="pizza__wrapper">
         <div
-          v-for="(ingridient, key) in selectedIngridients"
+          v-for="(ingridient, key) in selectedIngredients"
           class="pizza__filling"
           :key="key"
           :class="ingridient"
@@ -36,29 +36,29 @@ export default {
     doughsSize: function () {
       return this.doughs.alias === "light" ? "small" : "big";
     },
-    selectedIngridients: function () {
-      const selectedIngridients = [];
+    selectedIngredients: function () {
+      const selectedIngredients = [];
       this.ingredients.forEach((ingridient) => {
         const baseClass = "pizza__filling--" + ingridient.alias,
           secondClass = "pizza__filling--second",
           thirdClass = "pizza__filling--third";
 
         if (ingridient.count > 0) {
-          selectedIngridients.push([baseClass]);
+          selectedIngredients.push([baseClass]);
         }
         if (ingridient.count > 1) {
-          selectedIngridients.push([baseClass, secondClass]);
+          selectedIngredients.push([baseClass, secondClass]);
         }
         if (ingridient.count > 2) {
-          selectedIngridients.push([baseClass, thirdClass]);
+          selectedIngredients.push([baseClass, thirdClass]);
         }
       });
-      return selectedIngridients;
+      return selectedIngredients;
     },
   },
   methods: {
     addIngredient(ingredient) {
-      this.$emit("ingridientsChanged", ingredient.id, ingredient.count + 1);
+      this.$emit("ingredientsChanged", ingredient.id, ingredient.count + 1);
     },
   },
 };

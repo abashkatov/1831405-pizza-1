@@ -31,7 +31,7 @@
                   counterClass="ingridients__counter"
                   :item-id="ingredient.id"
                   :itemCount="ingredient.count"
-                  @countChanged="ingridientsChanged"
+                  @countChanged="ingredientsChanged(ingredient.id, $event)"
                 />
               </AppDrag>
             </li>
@@ -78,8 +78,8 @@ export default {
     changeSauce(id) {
       this.$emit("changeSauce", id);
     },
-    ingridientsChanged(id, newCount) {
-      this.$emit("ingridientsChanged", id, newCount);
+    ingredientsChanged(itemId, newCount) {
+      this.$emit("ingredientsChanged", itemId, newCount);
     },
   },
 };

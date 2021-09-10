@@ -48,10 +48,6 @@ export default {
       type: String,
       required: true,
     },
-    itemId: {
-      type: Number,
-      required: true,
-    },
     itemCount: {
       type: Number,
       required: true,
@@ -68,12 +64,12 @@ export default {
   methods: {
     plusItem() {
       if (this.itemCount < 3) {
-        this.$emit("countChanged", this.itemId, this.itemCount + 1);
+        this.$emit("countChanged", this.itemCount + 1);
       }
     },
     minusItem() {
       if (this.itemCount > 0) {
-        this.$emit("countChanged", this.itemId, this.itemCount - 1);
+        this.$emit("countChanged", this.itemCount - 1);
       }
     },
   },
