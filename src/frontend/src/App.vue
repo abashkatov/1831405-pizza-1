@@ -10,7 +10,6 @@ import Index from "@/views/Index.vue";
 export default {
   name: "App",
   components: { Index },
-  comments: { Index },
 };
 </script>
 
