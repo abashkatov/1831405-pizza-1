@@ -1,48 +1,45 @@
 <template>
-  <div>
-    <AppLayout />
-    <main class="content">
-      <form action="#" method="post">
-        <div class="content__wrapper">
-          <h1 class="title title--big">Конструктор пиццы</h1>
-          <BuilderDoughSelector
-            :doughs="doughs"
-            :selectedDough="selectedDough"
-            @changeDough="changeDough"
-          />
-          <BuilderSizeSelector
-            :sizes="sizes"
-            @changeSize="changeSize"
-            :selected-size="selectedSize"
-          />
-          <BuilderIngredientsSelector
-            :sauces="sauces"
-            :selected-sauce="selectedSauce"
+  <main class="content">
+    <form action="#" method="post">
+      <div class="content__wrapper">
+        <h1 class="title title--big">Конструктор пиццы</h1>
+        <BuilderDoughSelector
+          :doughs="doughs"
+          :selectedDough="selectedDough"
+          @changeDough="changeDough"
+        />
+        <BuilderSizeSelector
+          :sizes="sizes"
+          @changeSize="changeSize"
+          :selected-size="selectedSize"
+        />
+        <BuilderIngredientsSelector
+          :sauces="sauces"
+          :selected-sauce="selectedSauce"
+          :ingredients="ingredients"
+          @changeSauce="changeSauce"
+          @ingredientsChanged="changeIngredients"
+        />
+        <div class="content__pizza">
+          <label class="input">
+            <span class="visually-hidden">Название пиццы</span>
+            <input
+              type="text"
+              name="pizza_name"
+              placeholder="Введите название пиццы"
+            />
+          </label>
+          <BuilderPizzaView
+            :doughs="selectedDough"
+            :sauce="selectedSauce"
             :ingredients="ingredients"
-            @changeSauce="changeSauce"
             @ingredientsChanged="changeIngredients"
           />
-          <div class="content__pizza">
-            <label class="input">
-              <span class="visually-hidden">Название пиццы</span>
-              <input
-                type="text"
-                name="pizza_name"
-                placeholder="Введите название пиццы"
-              />
-            </label>
-            <BuilderPizzaView
-              :doughs="selectedDough"
-              :sauce="selectedSauce"
-              :ingredients="ingredients"
-              @ingredientsChanged="changeIngredients"
-            />
-            <BuilderPriceCounter :total-price="price" />
-          </div>
+          <BuilderPriceCounter :total-price="price" />
         </div>
-      </form>
-    </main>
-  </div>
+      </div>
+    </form>
+  </main>
 </template>
 
 <script>
@@ -52,11 +49,10 @@ import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngr
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderPizzaView from "../modules/builder/components/BuilderPizzaView";
 import BuilderPriceCounter from "../modules/builder/components/BuilderPriceCounter";
-import AppLayout from "../layouts/AppLayout";
+
 export default {
   name: "Index",
   components: {
-    AppLayout,
     BuilderPriceCounter,
     BuilderPizzaView,
     BuilderDoughSelector,
