@@ -1,17 +1,28 @@
 <template>
   <div id="app">
-    <AppLayout>
+    <component :is="layout" :user="user">
       <router-view />
-    </AppLayout>
+    </component>
   </div>
 </template>
 
 <script>
 import AppLayout from "./layouts/AppLayout";
+import AppLayoutAnonymous from "./layouts/AppLayoutAnonymous";
 
 export default {
   name: "App",
   components: { AppLayout },
+  data: function () {
+    return {
+      user: null,
+    };
+  },
+  computed: {
+    layout: function () {
+      return this.user === null ? AppLayoutAnonymous : AppLayout;
+    },
+  },
 };
 </script>
 

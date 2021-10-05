@@ -15,23 +15,7 @@
         <a href="/cart">0 ₽</a>
       </div>
       <div class="header__user">
-        <a href="/profile">
-          <picture>
-            <source
-              type="image/webp"
-              :srcset="`${user.img}.webp 1x, ${user.img}@2x.webp 2x`"
-            />
-            <img
-              :src="`${user.img}.jpg`"
-              :srcset="`${user.img}@2x.jpg`"
-              :alt="user.username"
-              width="32"
-              height="32"
-            />
-          </picture>
-          <span>{{ user.username }}</span>
-        </a>
-        <a href="/logout" class="header__logout"><span>Выйти</span></a>
+        <a href="/login" class="header__login"><span>Войти</span></a>
       </div>
     </header>
     <slot />
@@ -44,7 +28,7 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
 };
