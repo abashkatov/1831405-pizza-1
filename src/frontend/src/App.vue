@@ -1,26 +1,26 @@
 <template>
   <div id="app">
     <component :is="layout" :user="user">
-      <router-view />
+      <router-view :user="user" />
     </component>
   </div>
 </template>
 
 <script>
-import AppLayout from "./layouts/AppLayout";
-import AppLayoutAnonymous from "./layouts/AppLayoutAnonymous";
+import user from "@/static/user.json";
+const defaultLayout = "AppLayoutDefault";
 
 export default {
   name: "App",
-  components: { AppLayout },
   data: function () {
     return {
-      user: null,
+      user: user,
     };
   },
   computed: {
     layout: function () {
-      return this.user === null ? AppLayoutAnonymous : AppLayout;
+      const layout = this.$route.meta.layout || defaultLayout;
+      return () => import(`@/layouts/${layout}.vue`);
     },
   },
 };
