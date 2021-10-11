@@ -1,15 +1,28 @@
 <template>
   <div id="app">
-    <Index />
+    <component :is="layout" :user="user">
+      <router-view :user="user" />
+    </component>
   </div>
 </template>
 
 <script>
-import Index from "@/views/Index.vue";
+import user from "@/static/user.json";
+const defaultLayout = "AppLayoutDefault";
 
 export default {
   name: "App",
-  components: { Index },
+  data: function () {
+    return {
+      user: user,
+    };
+  },
+  computed: {
+    layout: function () {
+      const layout = this.$route.meta.layout || defaultLayout;
+      return () => import(`@/layouts/${layout}.vue`);
+    },
+  },
 };
 </script>
 
