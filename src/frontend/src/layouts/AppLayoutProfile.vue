@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppLayoutHeader :user="user" />
+    <AppLayoutHeader />
     <main class="layout">
       <div class="layout__sidebar sidebar">
         <router-link to="/" class="logo layout__logo">
@@ -37,12 +37,6 @@ import AppLayoutHeader from "./AppLayoutHeader";
 export default {
   name: "AppLayoutProfile",
   components: { AppLayoutHeader },
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
 };
 </script>
 

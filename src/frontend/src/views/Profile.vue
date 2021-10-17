@@ -125,13 +125,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Profile",
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapState("Auth", ["user"]),
   },
 };
 </script>

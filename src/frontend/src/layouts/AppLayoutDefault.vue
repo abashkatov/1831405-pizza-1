@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppLayoutHeader :user="user" />
+    <AppLayoutHeader />
     <slot />
   </div>
 </template>
@@ -11,12 +11,6 @@ import AppLayoutHeader from "./AppLayoutHeader";
 export default {
   name: "AppLayoutDefault",
   components: { AppLayoutHeader },
-  props: {
-    user: {
-      type: Object,
-      required: false,
-    },
-  },
 };
 </script>
 

@@ -1,22 +1,16 @@
 <template>
   <div id="app">
-    <component :is="layout" :user="user">
-      <router-view :user="user" />
+    <component :is="layout">
+      <router-view />
     </component>
   </div>
 </template>
 
 <script>
-import user from "@/static/user.json";
 const defaultLayout = "AppLayoutDefault";
 
 export default {
   name: "App",
-  data: function () {
-    return {
-      user: user,
-    };
-  },
   computed: {
     layout: function () {
       const layout = this.$route.meta.layout || defaultLayout;

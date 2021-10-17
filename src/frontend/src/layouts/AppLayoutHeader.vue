@@ -43,15 +43,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "AppLayoutHeader",
-  props: {
-    user: {
-      type: Object,
-      required: false,
-    },
-  },
   computed: {
+    ...mapState("Auth", ["user"]),
     isAuthenticated: function () {
       return this.user !== null;
     },
