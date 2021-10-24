@@ -3,11 +3,7 @@
     <form action="#" method="post">
       <div class="content__wrapper">
         <h1 class="title title--big">Конструктор пиццы</h1>
-        <BuilderDoughSelector
-          :doughs="doughs"
-          :selectedDough="selectedDough"
-          @changeDough="changeDough"
-        />
+        <BuilderDoughSelector />
         <BuilderSizeSelector
           :sizes="sizes"
           @changeSize="changeSize"
@@ -30,12 +26,11 @@
             />
           </label>
           <BuilderPizzaView
-            :doughs="selectedDough"
             :sauce="selectedSauce"
             :ingredients="ingredients"
             @ingredientsChanged="changeIngredients"
           />
-          <BuilderPriceCounter :total-price="price" />
+          <BuilderPriceCounter />
         </div>
       </div>
     </form>
@@ -43,7 +38,7 @@
 </template>
 
 <script>
-import { dough, ingredients, sauces, sizes } from "@/static/pizza.json";
+import { ingredients, sauces, sizes } from "@/static/pizza.json";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
@@ -61,35 +56,17 @@ export default {
   },
   data() {
     return {
-      doughs: dough,
       sizes: sizes,
       sauces: sauces,
       ingredients: ingredients.map(function (ingridient) {
         ingridient.count = 0;
         return ingridient;
       }),
-      selectedDough: dough[0],
       selectedSize: sizes[0],
       selectedSauce: sauces[0],
     };
   },
-  computed: {
-    price: function () {
-      const ingredientsPrice = this.ingredients.reduce(
-        (prev, cur) => prev + cur.price * cur.count,
-        0
-      );
-
-      return (
-        this.selectedSize.multiplier *
-        (this.selectedDough.price + this.selectedSauce.price + ingredientsPrice)
-      );
-    },
-  },
   methods: {
-    changeDough: function (dough) {
-      this.selectedDough = dough;
-    },
     changeSize: function (size) {
       this.selectedSize = size;
     },

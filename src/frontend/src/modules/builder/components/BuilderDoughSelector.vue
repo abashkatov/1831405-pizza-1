@@ -15,7 +15,7 @@
             :value="dough.value"
             class="visually-hidden"
             :checked="dough.id === selectedDough.id"
-            @click="$emit('changeDough', dough)"
+            @click="setDough(dough)"
           />
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}}</span>
@@ -26,17 +26,15 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "BuilderDoughSelector",
-  props: {
-    doughs: {
-      type: Array,
-      required: true,
-    },
-    selectedDough: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapState("Builder", ["doughs", "selectedDough"]),
+  },
+  methods: {
+    ...mapActions("Builder", ["setDough"]),
   },
 };
 </script>

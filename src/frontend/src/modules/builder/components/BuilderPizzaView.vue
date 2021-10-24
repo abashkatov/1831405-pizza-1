@@ -15,14 +15,12 @@
 
 <script>
 import AppDrop from "../../../common/components/AppDrop";
+import { mapState } from "vuex";
+
 export default {
   name: "BuilderPizzaView",
   components: { AppDrop },
   props: {
-    doughs: {
-      type: Object,
-      required: true,
-    },
     sauce: {
       type: Object,
       required: true,
@@ -33,6 +31,7 @@ export default {
     },
   },
   computed: {
+    ...mapState("Builder", { doughs: "selectedDough" }),
     doughsSize: function () {
       return this.doughs.alias === "light" ? "small" : "big";
     },

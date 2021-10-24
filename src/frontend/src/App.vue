@@ -17,6 +17,10 @@ export default {
       return () => import(`@/layouts/${layout}.vue`);
     },
   },
+  created() {
+    // Note: fetch initial data
+    this.$store.dispatch("init");
+  },
 };
 </script>
 

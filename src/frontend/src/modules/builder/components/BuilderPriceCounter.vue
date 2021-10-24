@@ -8,12 +8,27 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "BuilderPriceCounter",
-  props: {
-    totalPrice: {
-      type: Number,
-      required: true,
+  computed: {
+    ...mapState("Builder", [
+      "ingredients",
+      "selectedDough",
+      "selectedSize",
+      "selectedSauce",
+    ]),
+    totalPrice: function () {
+      const ingredientsPrice = this.ingredients.reduce(
+        (prev, cur) => prev + cur.price * cur.count,
+        0
+      );
+
+      return (
+        this.selectedSize.multiplier *
+        (this.selectedDough.price + this.selectedSauce.price + ingredientsPrice)
+      );
     },
   },
 };
