@@ -6,10 +6,7 @@
         <BuilderDoughSelector />
         <BuilderSizeSelector />
         <BuilderIngredientsSelector
-          :sauces="sauces"
-          :selected-sauce="selectedSauce"
           :ingredients="ingredients"
-          @changeSauce="changeSauce"
           @ingredientsChanged="changeIngredients"
         />
         <div class="content__pizza">
@@ -22,7 +19,6 @@
             />
           </label>
           <BuilderPizzaView
-            :sauce="selectedSauce"
             :ingredients="ingredients"
             @ingredientsChanged="changeIngredients"
           />
@@ -34,7 +30,7 @@
 </template>
 
 <script>
-import { ingredients, sauces } from "@/static/pizza.json";
+import { ingredients } from "@/static/pizza.json";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
@@ -52,19 +48,13 @@ export default {
   },
   data() {
     return {
-      sauces: sauces,
       ingredients: ingredients.map(function (ingridient) {
         ingridient.count = 0;
         return ingridient;
       }),
-      selectedSauce: sauces[0],
     };
   },
   methods: {
-    changeSauce: function (id) {
-      const sauces = this.sauces.filter((sauce) => sauce.id === id);
-      this.selectedSauce = sauces.pop();
-    },
     changeIngredients: function (itemId, newCount) {
       this.ingredients.forEach(function (ingridient) {
         if (ingridient.id === itemId) {

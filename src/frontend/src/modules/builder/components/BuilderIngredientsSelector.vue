@@ -46,24 +46,18 @@
 import RadioButton from "../../../common/components/RadioButton";
 import ItemCounter from "../../../common/components/ItemCounter";
 import AppDrag from "../../../common/components/AppDrag";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "BuilderIngredientsSelector",
   components: { AppDrag, ItemCounter, RadioButton },
   props: {
-    sauces: {
-      type: Array,
-      required: true,
-    },
-    selectedSauce: {
-      type: Object,
-      required: true,
-    },
     ingredients: {
       type: Array,
       required: true,
     },
   },
   computed: {
+    ...mapState("Builder", ["sauces", "selectedSauce"]),
     sauceRadioButtons: function () {
       return this.sauces.map(function (sauce) {
         return {
@@ -75,8 +69,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions("Builder", ["setSauce"]),
     changeSauce(id) {
-      this.$emit("changeSauce", id);
+      const sauce = this.sauces.reduce(
+        (prev, cur) => (cur.id === id ? cur : prev),
+        null
+      );
+      sauce && this.setSauce(sauce);
     },
     ingredientsChanged(itemId, newCount) {
       this.$emit("ingredientsChanged", itemId, newCount);

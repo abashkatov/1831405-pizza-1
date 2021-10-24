@@ -21,17 +21,13 @@ export default {
   name: "BuilderPizzaView",
   components: { AppDrop },
   props: {
-    sauce: {
-      type: Object,
-      required: true,
-    },
     ingredients: {
       type: Array,
       required: true,
     },
   },
   computed: {
-    ...mapState("Builder", { doughs: "selectedDough" }),
+    ...mapState("Builder", { doughs: "selectedDough", sauce: "selectedSauce" }),
     doughsSize: function () {
       return this.doughs.alias === "light" ? "small" : "big";
     },
