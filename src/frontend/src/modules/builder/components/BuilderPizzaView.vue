@@ -15,36 +15,34 @@
 
 <script>
 import AppDrop from "../../../common/components/AppDrop";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "BuilderPizzaView",
   components: { AppDrop },
-  props: {
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-  },
   computed: {
-    ...mapState("Builder", { doughs: "selectedDough", sauce: "selectedSauce" }),
+    ...mapState("Builder", {
+      doughs: "selectedDough",
+      sauce: "selectedSauce",
+      ingredients: "ingredients",
+    }),
     doughsSize: function () {
       return this.doughs.alias === "light" ? "small" : "big";
     },
     selectedIngredients: function () {
       const selectedIngredients = [];
-      this.ingredients.forEach((ingridient) => {
-        const baseClass = "pizza__filling--" + ingridient.alias,
+      this.ingredients.forEach((ingredient) => {
+        const baseClass = "pizza__filling--" + ingredient.alias,
           secondClass = "pizza__filling--second",
           thirdClass = "pizza__filling--third";
 
-        if (ingridient.count > 0) {
+        if (ingredient.count > 0) {
           selectedIngredients.push([baseClass]);
         }
-        if (ingridient.count > 1) {
+        if (ingredient.count > 1) {
           selectedIngredients.push([baseClass, secondClass]);
         }
-        if (ingridient.count > 2) {
+        if (ingredient.count > 2) {
           selectedIngredients.push([baseClass, thirdClass]);
         }
       });
@@ -52,9 +50,7 @@ export default {
     },
   },
   methods: {
-    addIngredient(ingredient) {
-      this.$emit("ingredientsChanged", ingredient.id, ingredient.count + 1);
-    },
+    ...mapActions("Builder", ["addIngredient"]),
   },
 };
 </script>

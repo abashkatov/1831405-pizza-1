@@ -33,21 +33,11 @@ export default {
     selectedSauce: {},
   },
   actions: {
-    fetch({ commit, dispatch }) {
+    fetch({ dispatch }) {
       dispatch("fetchDough");
       dispatch("fetchSizes");
       dispatch("fetchSauces");
-      const dataIngredients = ingredients.map(function (ingredient) {
-        return { ...ingredient, count: 0 };
-      });
-      commit(
-        SET_ENTITY,
-        {
-          ...namespaceIngredients,
-          value: dataIngredients,
-        },
-        { root: true }
-      );
+      dispatch("fetchIngredients");
     },
     fetchDough({ commit, dispatch }) {
       const dataDoughs = dough;
@@ -114,6 +104,42 @@ export default {
         },
         { root: true }
       );
+    },
+    fetchIngredients({ commit }) {
+      const dataIngredients = ingredients.map(function (ingredient) {
+        return { ...ingredient, count: 0 };
+      });
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceIngredients,
+          value: dataIngredients,
+        },
+        { root: true }
+      );
+    },
+    changeIngredientCount({ state, commit }, { itemId, newCount }) {
+      const newIngredients = state.ingredients.map(function (ingredient) {
+        if (ingredient.id === itemId) {
+          ingredient.count = newCount;
+        }
+        return ingredient;
+      });
+
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceIngredients,
+          value: newIngredients,
+        },
+        { root: true }
+      );
+    },
+    addIngredient({ dispatch }, ingredient) {
+      dispatch("changeIngredientCount", {
+        itemId: ingredient.id,
+        newCount: ingredient.count + 1,
+      });
     },
   },
 };

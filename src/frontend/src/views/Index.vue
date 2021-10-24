@@ -5,10 +5,7 @@
         <h1 class="title title--big">Конструктор пиццы</h1>
         <BuilderDoughSelector />
         <BuilderSizeSelector />
-        <BuilderIngredientsSelector
-          :ingredients="ingredients"
-          @ingredientsChanged="changeIngredients"
-        />
+        <BuilderIngredientsSelector />
         <div class="content__pizza">
           <label class="input">
             <span class="visually-hidden">Название пиццы</span>
@@ -18,10 +15,7 @@
               placeholder="Введите название пиццы"
             />
           </label>
-          <BuilderPizzaView
-            :ingredients="ingredients"
-            @ingredientsChanged="changeIngredients"
-          />
+          <BuilderPizzaView />
           <BuilderPriceCounter />
         </div>
       </div>
@@ -30,7 +24,6 @@
 </template>
 
 <script>
-import { ingredients } from "@/static/pizza.json";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
@@ -45,23 +38,6 @@ export default {
     BuilderDoughSelector,
     BuilderIngredientsSelector,
     BuilderSizeSelector,
-  },
-  data() {
-    return {
-      ingredients: ingredients.map(function (ingridient) {
-        ingridient.count = 0;
-        return ingridient;
-      }),
-    };
-  },
-  methods: {
-    changeIngredients: function (itemId, newCount) {
-      this.ingredients.forEach(function (ingridient) {
-        if (ingridient.id === itemId) {
-          ingridient.count = newCount;
-        }
-      });
-    },
   },
 };
 </script>

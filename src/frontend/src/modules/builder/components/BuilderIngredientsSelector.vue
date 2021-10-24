@@ -31,7 +31,12 @@
                   counterClass="ingridients__counter"
                   :item-id="ingredient.id"
                   :itemCount="ingredient.count"
-                  @countChanged="ingredientsChanged(ingredient.id, $event)"
+                  @countChanged="
+                    changeIngredientCount({
+                      itemId: ingredient.id,
+                      newCount: $event,
+                    })
+                  "
                 />
               </AppDrag>
             </li>
@@ -50,14 +55,8 @@ import { mapActions, mapState } from "vuex";
 export default {
   name: "BuilderIngredientsSelector",
   components: { AppDrag, ItemCounter, RadioButton },
-  props: {
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-  },
   computed: {
-    ...mapState("Builder", ["sauces", "selectedSauce"]),
+    ...mapState("Builder", ["sauces", "selectedSauce", "ingredients"]),
     sauceRadioButtons: function () {
       return this.sauces.map(function (sauce) {
         return {
@@ -69,16 +68,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions("Builder", ["setSauce"]),
+    ...mapActions("Builder", ["setSauce", "changeIngredientCount"]),
     changeSauce(id) {
       const sauce = this.sauces.reduce(
         (prev, cur) => (cur.id === id ? cur : prev),
         null
       );
       sauce && this.setSauce(sauce);
-    },
-    ingredientsChanged(itemId, newCount) {
-      this.$emit("ingredientsChanged", itemId, newCount);
     },
   },
 };
