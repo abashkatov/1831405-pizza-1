@@ -14,11 +14,11 @@ const namespaceSauces = { entity: entitySauces, module };
 const namespaceIngredients = { entity: entityIngredients, module };
 
 const entitySelectedDough = "selectedDough";
-// const entitySelectedSize = "selectedSize";
+const entitySelectedSize = "selectedSize";
 // const entitySelectedSauce = "selectedSauce";
 
 const namespaceSelectedDough = { entity: entitySelectedDough, module };
-// const namespaceSelectedSize = { entity: entitySelectedSize, module };
+const namespaceSelectedSize = { entity: entitySelectedSize, module };
 // const namespaceSelectedSauce = { entity: entitySelectedSauce, module };
 
 export default {
@@ -35,19 +35,11 @@ export default {
   actions: {
     fetch({ commit, dispatch }) {
       dispatch("fetchDough");
-      const dataSizes = sizes;
+      dispatch("fetchSizes");
       const dataSauces = sauces;
       const dataIngredients = ingredients.map(function (ingredient) {
         return { ...ingredient, count: 0 };
       });
-      commit(
-        SET_ENTITY,
-        {
-          ...namespaceSizes,
-          value: dataSizes,
-        },
-        { root: true }
-      );
       commit(
         SET_ENTITY,
         {
@@ -90,6 +82,35 @@ export default {
         {
           ...namespaceSelectedDough,
           value: dough,
+        },
+        { root: true }
+      );
+    },
+    fetchSizes({ commit }) {
+      const dataSizes = sizes;
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceSizes,
+          value: dataSizes,
+        },
+        { root: true }
+      );
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceSelectedSize,
+          value: dataSizes[0],
+        },
+        { root: true }
+      );
+    },
+    setSize({ commit }, size) {
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceSelectedSize,
+          value: size,
         },
         { root: true }
       );
