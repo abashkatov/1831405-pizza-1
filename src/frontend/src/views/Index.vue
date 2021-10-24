@@ -13,6 +13,8 @@
               type="text"
               name="pizza_name"
               placeholder="Введите название пиццы"
+              :value="name"
+              @change="setName($event.target.value)"
             />
           </label>
           <BuilderPizzaView />
@@ -29,6 +31,7 @@ import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngr
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderPizzaView from "../modules/builder/components/BuilderPizzaView";
 import BuilderPriceCounter from "../modules/builder/components/BuilderPriceCounter";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Index",
@@ -38,6 +41,12 @@ export default {
     BuilderDoughSelector,
     BuilderIngredientsSelector,
     BuilderSizeSelector,
+  },
+  computed: {
+    ...mapState("Builder", ["name"]),
+  },
+  methods: {
+    ...mapActions("Builder", ["setName"]),
   },
 };
 </script>

@@ -1,7 +1,12 @@
 <template>
   <div class="content__result">
     <p>Итого: {{ totalPrice }} ₽</p>
-    <button type="button" class="button button--disabled" disabled>
+    <button
+      type="button"
+      class="button"
+      :class="{ 'button--disabled': name.length < 3 }"
+      disabled
+    >
       Готовьте!
     </button>
   </div>
@@ -18,6 +23,7 @@ export default {
       "selectedDough",
       "selectedSize",
       "selectedSauce",
+      "name",
     ]),
     totalPrice: function () {
       const ingredientsPrice = this.ingredients.reduce(

@@ -16,10 +16,12 @@ const namespaceIngredients = { entity: entityIngredients, module };
 const entitySelectedDough = "selectedDough";
 const entitySelectedSize = "selectedSize";
 const entitySelectedSauce = "selectedSauce";
+const entityName = "name";
 
 const namespaceSelectedDough = { entity: entitySelectedDough, module };
 const namespaceSelectedSize = { entity: entitySelectedSize, module };
 const namespaceSelectedSauce = { entity: entitySelectedSauce, module };
+const namespaceName = { entity: entityName, module };
 
 export default {
   namespaced: true,
@@ -31,6 +33,7 @@ export default {
     selectedDough: {},
     selectedSize: {},
     selectedSauce: {},
+    name: "",
   },
   actions: {
     fetch({ dispatch }) {
@@ -140,6 +143,16 @@ export default {
         itemId: ingredient.id,
         newCount: ingredient.count + 1,
       });
+    },
+    setName({ commit }, name) {
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceName,
+          value: name,
+        },
+        { root: true }
+      );
     },
   },
 };
