@@ -5,7 +5,8 @@
       type="button"
       class="button"
       :class="{ 'button--disabled': name.length < 3 }"
-      disabled
+      :disabled="name.length < 3"
+      @click="addPizzaToCart"
     >
       Готовьте!
     </button>
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "BuilderPriceCounter",
@@ -35,6 +36,23 @@ export default {
         this.selectedSize.multiplier *
         (this.selectedDough.price + this.selectedSauce.price + ingredientsPrice)
       );
+    },
+  },
+  methods: {
+    ...mapActions("Builder", ["resetSelectedPizza"]),
+    ...mapActions("Cart", ["addPizza"]),
+    addPizzaToCart() {
+      const pizza = {
+        ingredients: this.ingredients,
+        dough: this.selectedDough,
+        size: this.selectedSize,
+        sauce: this.selectedSauce,
+        name: this.name,
+        count: 1,
+        price: this.totalPrice,
+      };
+      this.resetSelectedPizza();
+      this.addPizza(pizza);
     },
   },
 };

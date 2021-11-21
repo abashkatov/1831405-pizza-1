@@ -121,22 +121,24 @@ export default {
         { root: true }
       );
     },
-    changeIngredientCount({ state, commit }, { itemId, newCount }) {
+    setIngredients({ commit }, ingredients) {
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceIngredients,
+          value: ingredients,
+        },
+        { root: true }
+      );
+    },
+    changeIngredientCount({ state, dispatch }, { itemId, newCount }) {
       const newIngredients = state.ingredients.map(function (ingredient) {
         if (ingredient.id === itemId) {
           ingredient.count = newCount;
         }
         return ingredient;
       });
-
-      commit(
-        SET_ENTITY,
-        {
-          ...namespaceIngredients,
-          value: newIngredients,
-        },
-        { root: true }
-      );
+      dispatch("setIngredients", newIngredients);
     },
     addIngredient({ dispatch }, ingredient) {
       dispatch("changeIngredientCount", {
@@ -153,6 +155,17 @@ export default {
         },
         { root: true }
       );
+    },
+    resetSelectedPizza({ state, dispatch }) {
+      const newIngredients = state.ingredients.map(function (ingredient) {
+        ingredient.count = 0;
+        return ingredient;
+      });
+      dispatch("setIngredients", newIngredients);
+      dispatch("setName", "");
+      dispatch("setDough", state.doughs[0]);
+      dispatch("setSize", state.sizes[0]);
+      dispatch("setSauce", state.sauces[0]);
     },
   },
 };

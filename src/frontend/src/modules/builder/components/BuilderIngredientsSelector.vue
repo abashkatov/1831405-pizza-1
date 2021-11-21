@@ -25,10 +25,12 @@
                 :transfer-data="ingredient"
                 :is-draggable="ingredient.count < 3"
               >
+                <span :class="`filling filling--${ingredient.alias}`">
+                  {{ ingredient.name }}
+                </span>
                 <ItemCounter
-                  :classes="`filling filling--${ingredient.alias}`"
                   :title="ingredient.name"
-                  counterClass="ingridients__counter"
+                  counterClass="counter--orange ingridients__counter"
                   :item-id="ingredient.id"
                   :itemCount="ingredient.count"
                   @countChanged="
