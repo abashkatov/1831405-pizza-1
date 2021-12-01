@@ -29,6 +29,7 @@
         <span class="visually-hidden">Больше</span>
       </button>
     </div>
+    <slot />
   </div>
 </template>
 

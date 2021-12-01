@@ -15,6 +15,7 @@ Vue.use(Vuex);
 const actions = {
   async init({ dispatch }) {
     dispatch("Builder/fetch");
+    dispatch("Goods/fetch");
   },
 };
 
