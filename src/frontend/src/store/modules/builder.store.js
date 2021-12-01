@@ -157,9 +157,11 @@ export default {
       );
     },
     resetSelectedPizza({ state, dispatch }) {
-      const newIngredients = state.ingredients.map(function (ingredient) {
-        ingredient.count = 0;
-        return ingredient;
+      const newIngredients = state.ingredients.map((ingredient) => {
+        return {
+          ...ingredient,
+          count: 0,
+        };
       });
       dispatch("setIngredients", newIngredients);
       dispatch("setName", "");

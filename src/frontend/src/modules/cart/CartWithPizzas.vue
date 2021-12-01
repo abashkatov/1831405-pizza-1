@@ -7,158 +7,12 @@
         </div>
 
         <ul class="cart-list sheet">
-          <li
+          <PizzaRow
             v-for="(pizza, index) in pizzas"
             :key="index"
-            class="cart-list__item"
-          >
-            <div class="product cart-list__product">
-              <img
-                src="/public/img/product.svg"
-                class="product__img"
-                width="56"
-                height="56"
-                :alt="pizza.name"
-              />
-              <div class="product__text">
-                <h2>{{ pizza.name }}</h2>
-                <ul>
-                  <li>
-                    {{ pizza.size.name }}, на
-                    {{ pizza.dough.prepositional }} тесте
-                  </li>
-                  <li>Соус: {{ pizza.sauce.name.toLowerCase() }}</li>
-                  <li>Начинка: грибы, лук, ветчина, пармезан, ананас</li>
-                </ul>
-              </div>
-            </div>
-
-            <ItemCounter
-              :title="pizza.name"
-              counterClass="cart-list__counter"
-              :item-id="index"
-              :itemCount="pizza.count"
-              :max-count="0"
-              :button-color="`orange`"
-              @countChanged="
-                changePizzasCount({
-                  itemId: index,
-                  newCount: $event,
-                })
-              "
-            />
-
-            <div class="cart-list__price">
-              <b>{{ pizza.count * pizza.price }} ₽</b>
-            </div>
-
-            <div class="cart-list__button">
-              <button type="button" class="cart-list__edit">Изменить</button>
-            </div>
-          </li>
-          <li class="cart-list__item">
-            <div class="product cart-list__product">
-              <img
-                src="/public/img/product.svg"
-                class="product__img"
-                width="56"
-                height="56"
-                alt="Капричоза"
-              />
-              <div class="product__text">
-                <h2>Капричоза</h2>
-                <ul>
-                  <li>30 см, на тонком тесте</li>
-                  <li>Соус: томатный</li>
-                  <li>Начинка: грибы, лук, ветчина, пармезан, ананас</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="counter cart-list__counter">
-              <button
-                type="button"
-                class="counter__button counter__button--minus"
-              >
-                <span class="visually-hidden">Меньше</span>
-              </button>
-              <input
-                type="text"
-                name="counter"
-                class="counter__input"
-                value="1"
-              />
-              <button
-                type="button"
-                class="
-                  counter__button counter__button--plus counter__button--orange
-                "
-              >
-                <span class="visually-hidden">Больше</span>
-              </button>
-            </div>
-
-            <div class="cart-list__price">
-              <b>782 ₽</b>
-            </div>
-
-            <div class="cart-list__button">
-              <button type="button" class="cart-list__edit">Изменить</button>
-            </div>
-          </li>
-          <li class="cart-list__item">
-            <div class="product cart-list__product">
-              <img
-                src="/public/img/product.svg"
-                class="product__img"
-                width="56"
-                height="56"
-                alt="Любимая пицца"
-              />
-              <div class="product__text">
-                <h2>Любимая пицца</h2>
-                <ul>
-                  <li>30 см, на тонком тесте</li>
-                  <li>Соус: томатный</li>
-                  <li>
-                    Начинка: грибы, лук, ветчина, пармезан, ананас, бекон, блю
-                    чиз
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="counter cart-list__counter">
-              <button
-                type="button"
-                class="counter__button counter__button--minus"
-              >
-                <span class="visually-hidden">Меньше</span>
-              </button>
-              <input
-                type="text"
-                name="counter"
-                class="counter__input"
-                value="2"
-              />
-              <button
-                type="button"
-                class="
-                  counter__button counter__button--plus counter__button--orange
-                "
-              >
-                <span class="visually-hidden">Больше</span>
-              </button>
-            </div>
-
-            <div class="cart-list__price">
-              <b>782 ₽</b>
-            </div>
-
-            <div class="cart-list__button">
-              <button type="button" class="cart-list__edit">Изменить</button>
-            </div>
-          </li>
+            :pizza="pizza"
+            :item-id="index"
+          />
         </ul>
 
         <div class="cart__additional">
@@ -358,12 +212,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import ItemCounter from "../../common/components/ItemCounter";
+import { mapState } from "vuex";
+import PizzaRow from "./components/PizzaRow";
 
 export default {
   name: "CartWithPizzas",
-  components: { ItemCounter },
+  components: { PizzaRow },
   computed: {
     ...mapState("Cart", [
       "pizzas",
@@ -372,9 +226,6 @@ export default {
       "phone",
       "address",
     ]),
-  },
-  methods: {
-    ...mapActions("Cart", ["changePizzasCount"]),
   },
 };
 </script>
