@@ -1,5 +1,6 @@
 import { DELIVERY_TYPE_SELF } from "@/common/constants.js";
-import { ADD_ENTITY, SET_ENTITY } from "../mutation-types";
+import { ADD_ENTITY, DELETE_ENTITY, SET_ENTITY } from "../mutation-types";
+import { uniqueId } from "lodash";
 
 const module = "Cart";
 
@@ -25,7 +26,10 @@ export default {
         ADD_ENTITY,
         {
           ...namespacePizzas,
-          value: pizza,
+          value: {
+            ...pizza,
+            id: pizza.id || uniqueId(),
+          },
         },
         { root: true }
       );
@@ -40,7 +44,18 @@ export default {
         { root: true }
       );
     },
-    changePizzasCount({ state, dispatch }, { itemId, newCount }) {
+    changePizzasCount({ commit, state, dispatch }, { itemId, newCount }) {
+      if (newCount <= 0) {
+        commit(
+          DELETE_ENTITY,
+          {
+            ...namespacePizzas,
+            id: state.pizzas[itemId].id,
+          },
+          { root: true }
+        );
+        return;
+      }
       const newPizzas = state.pizzas.map(function (pizza) {
         return { ...pizza };
       });
