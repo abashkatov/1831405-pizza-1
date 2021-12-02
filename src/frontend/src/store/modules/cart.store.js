@@ -11,7 +11,6 @@ export default {
   namespaced: true,
   state: {
     pizzas: [],
-    goods: [],
     deliveryType: DELIVERY_TYPE_SELF,
     phone: "",
     address: {
@@ -61,6 +60,22 @@ export default {
       });
       newPizzas[itemId].count = newCount;
       dispatch("setPizzas", newPizzas);
+    },
+  },
+  getters: {
+    getPizzasCost(state) {
+      return state.pizzas.reduce((prevCost, pizza) => {
+        const ingredientsCost = pizza.ingredients.reduce(
+          (prev, cur) => prev + cur.price * cur.count,
+          0
+        );
+        return (
+          prevCost +
+          pizza.size.multiplier *
+            pizza.count *
+            (pizza.dough.price + pizza.sauce.price + ingredientsCost)
+        );
+      }, 0);
     },
   },
 };

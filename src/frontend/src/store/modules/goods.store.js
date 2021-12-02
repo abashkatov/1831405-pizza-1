@@ -42,4 +42,11 @@ export default {
       dispatch("setGoods", updatedGoods);
     },
   },
+  getters: {
+    getProductsCost(state) {
+      return state.goods.reduce((prevCost, product) => {
+        return prevCost + product.price * product.count;
+      }, 0);
+    },
+  },
 };

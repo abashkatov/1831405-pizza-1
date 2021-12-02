@@ -11,7 +11,9 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link to="/cart">0 ₽</router-link>
+      <router-link to="/cart"
+        >{{ getPizzasCost + getProductsCost }} ₽</router-link
+      >
     </div>
     <div v-if="isAuthenticated" class="header__user">
       <router-link to="/profile">
@@ -43,12 +45,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "AppLayoutHeader",
   computed: {
     ...mapState("Auth", ["user"]),
+    ...mapGetters("Cart", ["getPizzasCost"]),
+    ...mapGetters("Goods", ["getProductsCost"]),
     isAuthenticated: function () {
       return this.user !== null;
     },
