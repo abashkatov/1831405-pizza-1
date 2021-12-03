@@ -7,11 +7,15 @@ const entityDoughs = "doughs";
 const entitySizes = "sizes";
 const entitySauces = "sauces";
 const entityIngredients = "ingredients";
+const entityId = "id";
+const entityCount = "count";
 
 const namespaceDoughs = { entity: entityDoughs, module };
 const namespaceSizes = { entity: entitySizes, module };
 const namespaceSauces = { entity: entitySauces, module };
 const namespaceIngredients = { entity: entityIngredients, module };
+const namespaceId = { entity: entityId, module };
+const namespaceCount = { entity: entityCount, module };
 
 const entitySelectedDough = "selectedDough";
 const entitySelectedSize = "selectedSize";
@@ -34,6 +38,8 @@ export default {
     selectedSize: {},
     selectedSauce: {},
     name: "",
+    id: null,
+    count: 1,
   },
   actions: {
     fetch({ dispatch }) {
@@ -156,6 +162,26 @@ export default {
         { root: true }
       );
     },
+    setId({ commit }, id) {
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceId,
+          value: id,
+        },
+        { root: true }
+      );
+    },
+    setCount({ commit }, count) {
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceCount,
+          value: count,
+        },
+        { root: true }
+      );
+    },
     resetSelectedPizza({ state, dispatch }) {
       const newIngredients = state.ingredients.map((ingredient) => {
         return {
@@ -168,6 +194,17 @@ export default {
       dispatch("setDough", state.doughs[0]);
       dispatch("setSize", state.sizes[0]);
       dispatch("setSauce", state.sauces[0]);
+      dispatch("setId", null);
+      dispatch("setCount", 1);
+    },
+    setPizza({ dispatch }, pizza) {
+      dispatch("setIngredients", pizza.ingredients);
+      dispatch("setName", pizza.name);
+      dispatch("setDough", pizza.dough);
+      dispatch("setSize", pizza.size);
+      dispatch("setSauce", pizza.sauce);
+      dispatch("setId", pizza.id);
+      dispatch("setCount", pizza.count);
     },
   },
 };

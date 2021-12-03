@@ -1,5 +1,10 @@
 import { DELIVERY_TYPE_SELF } from "@/common/constants.js";
-import { ADD_ENTITY, DELETE_ENTITY, SET_ENTITY } from "../mutation-types";
+import {
+  ADD_ENTITY,
+  DELETE_ENTITY,
+  SET_ENTITY,
+  UPDATE_ENTITY,
+} from "../mutation-types";
 import { uniqueId } from "lodash";
 
 const module = "Cart";
@@ -39,6 +44,16 @@ export default {
         {
           ...namespacePizzas,
           value: pizzas,
+        },
+        { root: true }
+      );
+    },
+    updatePizza({ commit }, pizza) {
+      commit(
+        UPDATE_ENTITY,
+        {
+          ...namespacePizzas,
+          value: pizza,
         },
         { root: true }
       );

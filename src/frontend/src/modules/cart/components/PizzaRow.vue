@@ -40,7 +40,9 @@
     </div>
 
     <div class="cart-list__button">
-      <button type="button" class="cart-list__edit">Изменить</button>
+      <button type="button" class="cart-list__edit" @click="changePizza">
+        Изменить
+      </button>
     </div>
   </li>
 </template>
@@ -72,6 +74,11 @@ export default {
   },
   methods: {
     ...mapActions("Cart", ["changePizzasCount"]),
+    ...mapActions("Builder", ["setPizza"]),
+    changePizza() {
+      this.setPizza(this.pizza);
+      this.$router.push({ name: "Constructor" });
+    },
   },
 };
 </script>

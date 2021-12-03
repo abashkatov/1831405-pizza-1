@@ -25,6 +25,8 @@ export default {
       "selectedSize",
       "selectedSauce",
       "name",
+      "id",
+      "count",
     ]),
     totalPrice: function () {
       const ingredientsPrice = this.ingredients.reduce(
@@ -40,7 +42,7 @@ export default {
   },
   methods: {
     ...mapActions("Builder", ["resetSelectedPizza"]),
-    ...mapActions("Cart", ["addPizza"]),
+    ...mapActions("Cart", ["addPizza", "updatePizza"]),
     addPizzaToCart() {
       const pizza = {
         ingredients: this.ingredients,
@@ -48,11 +50,12 @@ export default {
         size: this.selectedSize,
         sauce: this.selectedSauce,
         name: this.name,
-        count: 1,
+        count: this.count,
         price: this.totalPrice,
+        id: this.id,
       };
       this.resetSelectedPizza();
-      this.addPizza(pizza);
+      pizza.id === null ? this.addPizza(pizza) : this.updatePizza(pizza);
     },
   },
 };
