@@ -12,19 +12,45 @@ const module = "Cart";
 const entityPizzas = "pizzas";
 const namespacePizzas = { entity: entityPizzas, module };
 
+const entityDeliveryType = "deliveryType";
+const namespaceDeliveryType = { entity: entityDeliveryType, module };
+
+const entityPhone = "phone";
+const namespacePhone = { entity: entityPhone, module };
+
+const entityAddress = "address";
+const namespaceAddress = { entity: entityAddress, module };
+
+const newAddress = {
+  id: null,
+  name: "Новый адрес",
+  street: "",
+  house: "",
+  apartment: "",
+};
+
 export default {
   namespaced: true,
   state: {
     pizzas: [],
     deliveryType: DELIVERY_TYPE_SELF,
     phone: "",
-    address: {
-      street: "",
-      house: "",
-      flat: "",
-    },
+    address: newAddress,
   },
   actions: {
+    resetAddress({ dispatch }) {
+      dispatch("setAddress", newAddress);
+    },
+    setAddress({ commit }, address) {
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceAddress,
+          value: address,
+        },
+        { root: true }
+      );
+    },
     addPizza({ commit }, pizza) {
       commit(
         ADD_ENTITY,
@@ -44,6 +70,26 @@ export default {
         {
           ...namespacePizzas,
           value: pizzas,
+        },
+        { root: true }
+      );
+    },
+    setDelyveryType({ commit }, deliveryType) {
+      commit(
+        SET_ENTITY,
+        {
+          ...namespaceDeliveryType,
+          value: deliveryType,
+        },
+        { root: true }
+      );
+    },
+    setPhone({ commit }, phone) {
+      commit(
+        SET_ENTITY,
+        {
+          ...namespacePhone,
+          value: phone,
         },
         { root: true }
       );
@@ -75,6 +121,13 @@ export default {
       });
       newPizzas[itemId].count = newCount;
       dispatch("setPizzas", newPizzas);
+    },
+    makeOrder({ dispatch }) {
+      dispatch("resetAddress");
+      dispatch("setDeliveryType", DELIVERY_TYPE_SELF);
+      dispatch("setPhone", "");
+      dispatch("setPizzas", []);
+      dispatch("Builder/resetSelectedPizza");
     },
   },
   getters: {
