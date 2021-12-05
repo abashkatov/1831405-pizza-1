@@ -13,9 +13,7 @@
     </div>
 
     <div class="footer__submit">
-      <button class="button" @click.stop="showModal = true">
-        Оформить заказ
-      </button>
+      <button class="button" @click="$emit('makeOrder')">Оформить заказ</button>
     </div>
   </section>
 </template>

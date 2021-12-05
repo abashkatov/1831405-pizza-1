@@ -8,7 +8,9 @@
     </div>
     <p>Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
     <div class="popup__button">
-      <a href="#" class="button">Отлично, я жду!</a>
+      <a href="#" class="button" @click="$emit('closePopup')"
+        >Отлично, я жду!</a
+      >
     </div>
   </div>
 </template>

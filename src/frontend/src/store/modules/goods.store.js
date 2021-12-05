@@ -13,33 +13,42 @@ export default {
   },
   actions: {
     fetch({ dispatch }) {
-      const dataGoods = goods.map((good) => {
+      const dataGoods = goods.map((product) => {
         return {
-          ...good,
+          ...product,
           count: 0,
         };
       });
       dispatch("setGoods", dataGoods);
     },
-    setGoods({ commit }, newGoods) {
+    setGoods({ commit }, updatedProducts) {
       commit(
         SET_ENTITY,
         {
           ...namespaceGoods,
-          value: newGoods,
+          value: updatedProducts,
         },
         { root: true }
       );
     },
     changeGoodsCount({ state, dispatch }, { itemId, newCount }) {
-      const updatedGoods = state.goods.map((good) => {
-        const newGood = { ...good };
-        if (itemId === good.id) {
-          newGood.count = newCount;
+      const updatedProducts = state.goods.map((product) => {
+        const newProduct = { ...product };
+        if (itemId === product.id) {
+          newProduct.count = newCount;
         }
-        return newGood;
+        return newProduct;
       });
-      dispatch("setGoods", updatedGoods);
+      dispatch("setGoods", updatedProducts);
+    },
+    resetProducts({ state, dispatch }) {
+      const updatedProducts = state.goods.map((product) => {
+        return {
+          ...product,
+          count: 0,
+        };
+      });
+      dispatch("setGoods", updatedProducts);
     },
   },
   getters: {

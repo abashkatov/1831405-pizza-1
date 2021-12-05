@@ -74,7 +74,7 @@ export default {
         { root: true }
       );
     },
-    setDelyveryType({ commit }, deliveryType) {
+    setDeliveryType({ commit }, deliveryType) {
       commit(
         SET_ENTITY,
         {
@@ -127,7 +127,8 @@ export default {
       dispatch("setDeliveryType", DELIVERY_TYPE_SELF);
       dispatch("setPhone", "");
       dispatch("setPizzas", []);
-      dispatch("Builder/resetSelectedPizza");
+      dispatch("Builder/resetSelectedPizza", null, { root: true });
+      dispatch("Goods/resetProducts", null, { root: true });
     },
   },
   getters: {

@@ -28,7 +28,7 @@ export default {
       const address = {
         id: uniqueId(),
         name: "Мой первый адрес",
-        street: " Моя улица",
+        street: "Моя улица",
         house: "333",
         apartment: "222",
       };

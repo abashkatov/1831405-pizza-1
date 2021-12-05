@@ -63,8 +63,8 @@
           </div>
         </div>
       </main>
-      <CartFooter />
-      <OrderThanks v-if="showModal" @closePopup="showModal = false" />
+      <CartFooter @makeOrder="showModal = true" />
+      <OrderThanks v-if="showModal" @closePopup="closePopup" />
     </form>
   </div>
 </template>
@@ -111,7 +111,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions("Cart", ["setAddress", "resetAddress", "setPhone"]),
+    ...mapActions("Cart", [
+      "setAddress",
+      "resetAddress",
+      "setPhone",
+      "makeOrder",
+    ]),
     setDeliveryType(event) {
       const deliveryType = event.target.value.toString();
       this.selectedDeliveryType = deliveryType;
@@ -133,6 +138,17 @@ export default {
     },
     changePhone(event) {
       this.setPhone(event.target.value);
+    },
+    closePopup() {
+      this.showModal = false;
+      this.makeOrder();
+      this.user === null
+        ? this.$router.push({ name: "Constructor" }).catch(() => {
+            this.$router.push({ name: "Constructor" });
+          })
+        : this.$router.push({ name: "Orders" }).catch(() => {
+            this.$router.push({ name: "Orders" });
+          });
     },
   },
 };
