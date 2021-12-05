@@ -14,7 +14,7 @@ export default {
     ...mapState("Cart", ["pizzas"]),
     layout: function () {
       const layout = this.pizzas.length > 0 ? CartWithPizzas : EmptyCart;
-      return () => import(`@/modules/cart/${layout}.vue`);
+      return () => import(`@/views/cart/${layout}.vue`);
     },
   },
 };

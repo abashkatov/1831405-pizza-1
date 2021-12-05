@@ -73,8 +73,8 @@
       </main>
       <section class="footer">
         <div class="footer__more">
-          <a href="#" class="button button--border button--arrow"
-            >Хочу еще одну</a
+          <router-link to="/" class="button button--border button--arrow"
+            >Хочу еще одну</router-link
           >
         </div>
         <p class="footer__text">
@@ -97,9 +97,9 @@
 
 <script>
 import { mapState } from "vuex";
-import PizzaRow from "./components/PizzaRow";
-import GoodsRow from "./components/GoodsRow";
-import OrderThanks from "./components/OrderThanks";
+import PizzaRow from "../../modules/cart/components/PizzaRow";
+import GoodsRow from "../../modules/cart/components/GoodsRow";
+import OrderThanks from "../../modules/cart/components/OrderThanks";
 
 export default {
   name: "CartWithPizzas",
