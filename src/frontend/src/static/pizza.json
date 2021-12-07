@@ -3,7 +3,6 @@
     {
       "id": 1,
       "name": "Тонкое",
-      "prepositional": "тонком",
       "image": "/public/img/dough-light.svg",
       "description": "Из твердых сортов пшеницы",
       "price": 300,
@@ -12,7 +11,6 @@
     {
       "id": 2,
       "name": "Толстое",
-      "prepositional": "толстом",
       "image": "/public/img/dough-large.svg",
       "description": "Из твердых сортов пшеницы",
       "price": 300,
