@@ -117,9 +117,12 @@ export default {
         return;
       }
       const newPizzas = state.pizzas.map(function (pizza) {
-        return { ...pizza };
+        const newPizza = { ...pizza };
+        if (itemId === pizza.id) {
+          newPizza.count = newCount;
+        }
+        return newPizza;
       });
-      newPizzas[itemId].count = newCount;
       dispatch("setPizzas", newPizzas);
     },
     makeOrder({ dispatch }) {

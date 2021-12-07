@@ -49,7 +49,15 @@ export default {
       dispatch("fetchIngredients");
     },
     fetchDough({ commit, dispatch }) {
-      const dataDoughs = dough;
+      const dataDoughs = dough.map((currentDough) => {
+        const prepositional = `${currentDough.name
+          .toLowerCase()
+          .slice(0, -1)}м`;
+        return {
+          ...currentDough,
+          prepositional,
+        };
+      });
       commit(
         SET_ENTITY,
         {
@@ -140,7 +148,10 @@ export default {
     changeIngredientCount({ state, dispatch }, { itemId, newCount }) {
       const newIngredients = state.ingredients.map(function (ingredient) {
         if (ingredient.id === itemId) {
-          ingredient.count = newCount;
+          ingredient = {
+            ...ingredient,
+            count: newCount,
+          };
         }
         return ingredient;
       });

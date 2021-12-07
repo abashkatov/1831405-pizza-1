@@ -23,13 +23,13 @@
     <ItemCounter
       :title="pizza.name"
       counterClass="cart-list__counter"
-      :item-id="itemId"
+      :item-id="pizza.id"
       :itemCount="pizza.count"
       :max-count="0"
       :button-color="`orange`"
       @countChanged="
         changePizzasCount({
-          itemId,
+          itemId: pizza.id,
           newCount: $event,
         })
       "
@@ -57,10 +57,6 @@ export default {
   props: {
     pizza: {
       type: Object,
-      required: true,
-    },
-    itemId: {
-      type: Number,
       required: true,
     },
   },
