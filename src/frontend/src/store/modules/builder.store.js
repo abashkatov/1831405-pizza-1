@@ -1,5 +1,6 @@
-import { dough, ingredients, sauces, sizes } from "@/static/pizza.json";
+import { ingredients, sauces, sizes } from "@/static/pizza.json";
 import { SET_ENTITY } from "@/store/mutation-types";
+import resources from "@/common/enums/resources";
 
 const module = "Builder";
 
@@ -48,14 +49,17 @@ export default {
       dispatch("fetchSauces");
       dispatch("fetchIngredients");
     },
-    fetchDough({ commit, dispatch }) {
+    async fetchDough({ commit, dispatch }) {
+      const dough = await this.$api[resources.DOUGH].query();
       const dataDoughs = dough.map((currentDough) => {
         const prepositional = `${currentDough.name
           .toLowerCase()
           .slice(0, -1)}м`;
+        const alias = currentDough.image.slice(18, 23);
         return {
           ...currentDough,
           prepositional,
+          alias,
         };
       });
       commit(

@@ -18,7 +18,7 @@
             @click="setDough(dough)"
           />
           <b>{{ dough.name }}</b>
-          <span>{{ dough.description }}}</span>
+          <span>{{ dough.description }}</span>
         </label>
       </div>
     </div>
