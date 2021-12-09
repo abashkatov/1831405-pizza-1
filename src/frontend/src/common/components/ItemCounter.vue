@@ -1,9 +1,6 @@
 <template>
   <div>
-    <span :class="classes">
-      {{ title }}
-    </span>
-    <div class="counter counter--orange" :class="counterClass">
+    <div class="counter" :class="counterClass">
       <button
         type="button"
         class="counter__button counter__button--minus"
@@ -22,13 +19,17 @@
       <button
         type="button"
         class="counter__button counter__button--plus"
-        :class="{ 'counter__button--disabled': isPlusDisabled }"
+        :class="[
+          { 'counter__button--disabled': isPlusDisabled },
+          buttonColorClass,
+        ]"
         :disabled="isPlusDisabled"
         @click="plusItem"
       >
         <span class="visually-hidden">Больше</span>
       </button>
     </div>
+    <slot />
   </div>
 </template>
 
@@ -36,10 +37,6 @@
 export default {
   name: "ItemCounter",
   props: {
-    classes: {
-      type: String,
-      required: true,
-    },
     title: {
       type: String,
       required: true,
@@ -52,23 +49,36 @@ export default {
       type: Number,
       required: true,
     },
+    maxCount: {
+      type: Number,
+      default: 3,
+    },
+    buttonColor: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
     isMinusDisabled() {
       return this.itemCount <= 0;
     },
     isPlusDisabled() {
-      return this.itemCount >= 3;
+      return this.itemCount >= this.maxCount && this.maxCount > 0;
+    },
+    buttonColorClass() {
+      return this.buttonColor.length > 0
+        ? `counter__button--${this.buttonColor}`
+        : false;
     },
   },
   methods: {
     plusItem() {
-      if (this.itemCount < 3) {
+      if (!this.isPlusDisabled) {
         this.$emit("countChanged", this.itemCount + 1);
       }
     },
     minusItem() {
-      if (this.itemCount > 0) {
+      if (!this.isMinusDisabled) {
         this.$emit("countChanged", this.itemCount - 1);
       }
     },

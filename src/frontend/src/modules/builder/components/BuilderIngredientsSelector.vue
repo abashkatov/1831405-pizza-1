@@ -25,13 +25,20 @@
                 :transfer-data="ingredient"
                 :is-draggable="ingredient.count < 3"
               >
+                <span :class="`filling filling--${ingredient.alias}`">
+                  {{ ingredient.name }}
+                </span>
                 <ItemCounter
-                  :classes="`filling filling--${ingredient.alias}`"
                   :title="ingredient.name"
-                  counterClass="ingridients__counter"
+                  counterClass="counter--orange ingridients__counter"
                   :item-id="ingredient.id"
                   :itemCount="ingredient.count"
-                  @countChanged="ingredientsChanged(ingredient.id, $event)"
+                  @countChanged="
+                    changeIngredientCount({
+                      itemId: ingredient.id,
+                      newCount: $event,
+                    })
+                  "
                 />
               </AppDrag>
             </li>
@@ -46,24 +53,12 @@
 import RadioButton from "../../../common/components/RadioButton";
 import ItemCounter from "../../../common/components/ItemCounter";
 import AppDrag from "../../../common/components/AppDrag";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "BuilderIngredientsSelector",
   components: { AppDrag, ItemCounter, RadioButton },
-  props: {
-    sauces: {
-      type: Array,
-      required: true,
-    },
-    selectedSauce: {
-      type: Object,
-      required: true,
-    },
-    ingredients: {
-      type: Array,
-      required: true,
-    },
-  },
   computed: {
+    ...mapState("Builder", ["sauces", "selectedSauce", "ingredients"]),
     sauceRadioButtons: function () {
       return this.sauces.map(function (sauce) {
         return {
@@ -75,11 +70,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions("Builder", ["setSauce", "changeIngredientCount"]),
     changeSauce(id) {
-      this.$emit("changeSauce", id);
-    },
-    ingredientsChanged(itemId, newCount) {
-      this.$emit("ingredientsChanged", itemId, newCount);
+      const sauce = this.sauces.reduce(
+        (prev, cur) => (cur.id === id ? cur : prev),
+        null
+      );
+      sauce && this.setSauce(sauce);
     },
   },
 };
