@@ -1,5 +1,5 @@
-import goods from "@/static/misc.json";
 import { SET_ENTITY } from "@/store/mutation-types";
+import resources from "../../common/enums/resources";
 
 const module = "Goods";
 
@@ -12,14 +12,15 @@ export default {
     goods: [],
   },
   actions: {
-    fetch({ dispatch }) {
-      const dataGoods = goods.map((product) => {
+    async fetch({ dispatch }) {
+      const dataGoods = await this.$api[resources.MISC].query();
+      const goods = dataGoods.map((product) => {
         return {
           ...product,
           count: 0,
         };
       });
-      dispatch("setGoods", dataGoods);
+      dispatch("setGoods", goods);
     },
     setGoods({ commit }, updatedProducts) {
       commit(

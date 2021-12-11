@@ -14,5 +14,6 @@ export const createResources = (notifier) => {
       resources.INGREDIENTS,
       notifier
     ),
+    [resources.MISC]: new ReadOnlyApiService(resources.MISC, notifier),
   };
 };
