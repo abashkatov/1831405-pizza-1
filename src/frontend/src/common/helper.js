@@ -4,6 +4,10 @@ import { AuthApiService, ReadOnlyApiService } from "@/services/api.service";
 export const capitalize = (string) =>
   `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
 
+export const setAuth = (store) => {
+  store.$api.auth.setAuthHeader();
+  store.dispatch("Auth/fetchUser");
+};
 export const createResources = (notifier) => {
   return {
     [resources.AUTH]: new AuthApiService(notifier),

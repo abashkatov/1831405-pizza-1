@@ -18,11 +18,30 @@ export default {
   },
   actions: {
     fetch({ dispatch }) {
-      dispatch("fetchUser");
       dispatch("fetchAddresses");
     },
-    fetchUser({ dispatch }) {
+    async fetchUser({ dispatch }) {
+      try {
+        const data = await this.$api.auth.getMe();
+        dispatch("setUser", data);
+      } catch {
+        dispatch("logout", false);
+      }
       dispatch("setUser", user);
+    },
+    async login({ dispatch }, credentials) {
+      const data = await this.$api.auth.login(credentials);
+      this.$jwt.saveToken(data.token);
+      this.$api.auth.setAuthHeader();
+      dispatch("fetchUser");
+    },
+    async logout({ dispatch }, sendRequest = true) {
+      if (sendRequest) {
+        await this.$api.auth.logout();
+      }
+      this.$jwt.destroyToken();
+      this.$api.auth.setAuthHeader();
+      dispatch("setUser", null);
     },
     fetchAddresses({ dispatch }) {
       const address = {
@@ -64,5 +83,8 @@ export default {
         { root: true }
       );
     },
+  },
+  getters: {
+    isAuthenticated: (state) => state.user !== null,
   },
 };

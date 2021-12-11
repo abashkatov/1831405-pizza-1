@@ -9,6 +9,7 @@
 
 <script>
 import AppNotifications from "@/common/components/AppNotifications";
+import { setAuth } from "@/common/helper";
 
 const defaultLayout = "AppLayoutDefault";
 
@@ -22,7 +23,9 @@ export default {
     },
   },
   created() {
-    // Note: fetch initial data
+    if (this.$jwt.getToken()) {
+      setAuth(this.$store);
+    }
     this.$store.dispatch("init");
   },
 };
