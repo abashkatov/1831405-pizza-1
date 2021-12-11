@@ -1,4 +1,3 @@
-import { ingredients, sauces, sizes } from "@/static/pizza.json";
 import { SET_ENTITY } from "@/store/mutation-types";
 import resources from "@/common/enums/resources";
 
@@ -82,13 +81,20 @@ export default {
         { root: true }
       );
     },
-    fetchSizes({ commit, dispatch }) {
-      const dataSizes = sizes;
+    async fetchSizes({ commit, dispatch }) {
+      const dataSizes = await this.$api[resources.SIZES].query();
+      const aliases = ["", "small", "normal", "big"];
+      const sizes = dataSizes.map((size) => {
+        return {
+          ...size,
+          alias: aliases[size.id] ?? "big",
+        };
+      });
       commit(
         SET_ENTITY,
         {
           ...namespaceSizes,
-          value: dataSizes,
+          value: sizes,
         },
         { root: true }
       );
@@ -104,17 +110,23 @@ export default {
         { root: true }
       );
     },
-    fetchSauces({ commit, dispatch }) {
-      const dataSauces = sauces;
+    async fetchSauces({ commit, dispatch }) {
+      const dataSauces = await this.$api[resources.SAUCE].query();
+      const sauces = dataSauces.map((sauce) => {
+        return {
+          ...sauce,
+          alias: sauce.id === 1 ? "tomato" : "creamy",
+        };
+      });
       commit(
         SET_ENTITY,
         {
           ...namespaceSauces,
-          value: dataSauces,
+          value: sauces,
         },
         { root: true }
       );
-      dispatch("setSauce", dataSauces[0]);
+      dispatch("setSauce", sauces[0]);
     },
     setSauce({ commit }, sauce) {
       commit(
@@ -126,9 +138,15 @@ export default {
         { root: true }
       );
     },
-    fetchIngredients({ commit }) {
+    async fetchIngredients({ commit }) {
+      const ingredients = await this.$api[resources.INGREDIENTS].query();
+      const regexp = new RegExp("/public/img/filling/(\\w+)\\.svg");
       const dataIngredients = ingredients.map(function (ingredient) {
-        return { ...ingredient, count: 0 };
+        return {
+          ...ingredient,
+          count: 0,
+          alias: regexp.exec(ingredient.image)[1] ?? "",
+        };
       });
       commit(
         SET_ENTITY,
