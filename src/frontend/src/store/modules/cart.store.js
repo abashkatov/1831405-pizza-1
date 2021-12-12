@@ -6,6 +6,7 @@ import {
   UPDATE_ENTITY,
 } from "../mutation-types";
 import { uniqueId } from "lodash";
+import { pizzaCost } from "../../common/helper";
 
 const module = "Cart";
 
@@ -169,18 +170,10 @@ export default {
   },
   getters: {
     getPizzasCost(state) {
-      return state.pizzas.reduce((prevCost, pizza) => {
-        const ingredientsCost = pizza.ingredients.reduce(
-          (prev, cur) => prev + cur.price * cur.count,
-          0
-        );
-        return (
-          prevCost +
-          pizza.size.multiplier *
-            pizza.count *
-            (pizza.dough.price + pizza.sauce.price + ingredientsCost)
-        );
-      }, 0);
+      return state.pizzas.reduce(
+        (prevCost, pizza) => prevCost + pizzaCost(pizza) * pizza.count,
+        0
+      );
     },
   },
 };

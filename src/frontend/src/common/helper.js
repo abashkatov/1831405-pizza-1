@@ -8,6 +8,17 @@ import {
 export const capitalize = (string) =>
   `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
 
+export const pizzaCost = (pizza) => {
+  const ingredientsCost = pizza.ingredients.reduce(
+    (prev, cur) => prev + cur.price * cur.count,
+    0
+  );
+  return (
+    pizza.size.multiplier *
+    (pizza.dough.price + pizza.sauce.price + ingredientsCost)
+  );
+};
+
 export const setAuth = (store) => {
   store.$api.auth.setAuthHeader();
   store.dispatch("Auth/fetchUser");
