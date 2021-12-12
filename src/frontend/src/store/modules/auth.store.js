@@ -1,4 +1,3 @@
-import user from "@/static/user.json";
 import {
   ADD_ENTITY,
   DELETE_ENTITY,
@@ -27,11 +26,14 @@ export default {
     async fetchUser({ dispatch }) {
       try {
         const data = await this.$api.auth.getMe();
-        dispatch("setUser", data);
+        const user = {
+          ...data,
+          avatar: data.avatar.slice(0, -4),
+        };
+        dispatch("setUser", user);
       } catch {
         dispatch("logout", false);
       }
-      dispatch("setUser", user);
     },
     async login({ dispatch }, credentials) {
       const data = await this.$api.auth.login(credentials);
