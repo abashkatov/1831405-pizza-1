@@ -35,5 +35,6 @@ export const createResources = (notifier) => {
     ),
     [resources.MISC]: new ReadOnlyApiService(resources.MISC, notifier),
     [resources.ORDERS]: new CrudApiService(resources.ORDERS, notifier),
+    [resources.ADDRESSES]: new CrudApiService(resources.ADDRESSES, notifier),
   };
 };

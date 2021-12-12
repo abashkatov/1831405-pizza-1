@@ -134,13 +134,14 @@ export default {
       "makeOrder",
     ]),
     setDeliveryType(event) {
-      const deliveryType = event.target.value.toString();
+      const deliveryType = event.target.value;
       this.selectedDeliveryType = deliveryType;
       if (deliveryType === DELIVERY_TYPE_NEW_ADDRESS) {
         this.resetAddress();
       } else if (deliveryType !== DELIVERY_TYPE_SELF) {
+        const addressId = Number(deliveryType);
         const address = this.addresses.find((curAddress) => {
-          return curAddress.id === deliveryType;
+          return curAddress.id === addressId;
         });
         if (typeof address !== "undefined") {
           this.setAddress(address);

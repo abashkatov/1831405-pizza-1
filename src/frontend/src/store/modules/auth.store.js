@@ -1,6 +1,10 @@
 import user from "@/static/user.json";
-import { ADD_ENTITY, SET_ENTITY } from "../mutation-types";
-import { uniqueId } from "lodash";
+import {
+  ADD_ENTITY,
+  DELETE_ENTITY,
+  SET_ENTITY,
+  UPDATE_ENTITY,
+} from "../mutation-types";
 
 const module = "Auth";
 
@@ -43,16 +47,42 @@ export default {
       this.$api.auth.setAuthHeader();
       dispatch("setUser", null);
     },
-    fetchAddresses({ dispatch }) {
-      const address = {
-        id: uniqueId(),
-        name: "Мой первый адрес",
-        street: "Моя улица",
-        building: "333",
-        flat: "222",
-        comment: "sdfdsf",
-      };
-      dispatch("addAddress", address);
+    async fetchAddresses({ dispatch }) {
+      const addresses = await this.$api.addresses.query();
+      dispatch("setAddresses", addresses);
+    },
+    async updateAddress({ commit }, address) {
+      await this.$api.addresses.put(address);
+      commit(
+        UPDATE_ENTITY,
+        {
+          ...namespaceAddresses,
+          value: address,
+        },
+        { root: true }
+      );
+    },
+    async deleteAddress({ commit }, id) {
+      await this.$api.addresses.delete(id);
+      commit(
+        DELETE_ENTITY,
+        {
+          ...namespaceAddresses,
+          id,
+        },
+        { root: true }
+      );
+    },
+    async addAddress({ commit }, address) {
+      const newAddress = await this.$api.addresses.post(address);
+      commit(
+        ADD_ENTITY,
+        {
+          ...namespaceAddresses,
+          value: newAddress,
+        },
+        { root: true }
+      );
     },
     setUser({ commit }, user) {
       commit(
@@ -70,16 +100,6 @@ export default {
         {
           ...namespaceAddresses,
           value: addresses,
-        },
-        { root: true }
-      );
-    },
-    addAddress({ commit }, address) {
-      commit(
-        ADD_ENTITY,
-        {
-          ...namespaceAddresses,
-          value: address,
         },
         { root: true }
       );

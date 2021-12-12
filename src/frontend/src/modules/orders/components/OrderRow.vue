@@ -29,7 +29,10 @@
       />
     </ul>
 
-    <p class="order__address">Адрес доставки: {{ address }}</p>
+    <p v-if="order.address" class="order__address">
+      Адрес доставки: {{ address }}
+    </p>
+    <p v-else class="order__address">Самовывоз</p>
   </section>
 </template>
 

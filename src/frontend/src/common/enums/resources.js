@@ -6,4 +6,5 @@ export default {
   INGREDIENTS: "ingredients",
   MISC: "misc",
   ORDERS: "orders",
+  ADDRESSES: "addresses",
 };

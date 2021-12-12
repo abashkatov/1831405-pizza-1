@@ -15,13 +15,11 @@ export default {
   actions: {
     fetchOrders: async function ({ dispatch, rootState }) {
       const data = await this.$api[resources.ORDERS].query();
-      const orders = data.map((order) => {
-        // eslint-disable-next-line no-unused-vars
-        const { userId, ...address } = order.orderAddress;
-        return {
-          id: order.id,
-          address,
-          products: order.orderMisc.map((misc) => {
+      const orders = data.map((orderData) => {
+        const order = {
+          id: orderData.id,
+          address: null,
+          products: orderData.orderMisc.map((misc) => {
             const product = rootState.Goods.goods.find(
               (good) => good.id === misc.id
             );
@@ -30,7 +28,7 @@ export default {
               count: misc.quantity,
             };
           }),
-          pizzas: order.orderPizzas.map((pizza) => {
+          pizzas: orderData.orderPizzas.map((pizza) => {
             return {
               id: uniqueId(),
               dough: rootState.Builder.doughs.find(
@@ -56,6 +54,12 @@ export default {
             };
           }),
         };
+        if (orderData.orderAddress) {
+          // eslint-disable-next-line no-unused-vars
+          const { userId, ...address } = orderData.orderAddress;
+          order.address = address;
+        }
+        return order;
       });
       dispatch("setOrders", orders);
     },
