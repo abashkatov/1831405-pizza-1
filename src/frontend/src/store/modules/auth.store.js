@@ -48,8 +48,9 @@ export default {
         id: uniqueId(),
         name: "Мой первый адрес",
         street: "Моя улица",
-        house: "333",
-        apartment: "222",
+        building: "333",
+        flat: "222",
+        comment: "sdfdsf",
       };
       dispatch("addAddress", address);
     },

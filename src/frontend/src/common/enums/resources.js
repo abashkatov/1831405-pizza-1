@@ -5,4 +5,5 @@ export default {
   SIZES: "sizes",
   INGREDIENTS: "ingredients",
   MISC: "misc",
+  ORDERS: "orders",
 };

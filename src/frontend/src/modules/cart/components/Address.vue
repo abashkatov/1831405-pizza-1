@@ -22,7 +22,7 @@
           :disabled="!isEditable"
           type="text"
           name="house"
-          :value="address.house"
+          :value="address.building"
           @change="changeHouse"
         />
       </label>
@@ -35,8 +35,8 @@
           :disabled="!isEditable"
           type="text"
           name="apartment"
-          :value="address.apartment"
-          @change="changeApartment"
+          :value="address.flat"
+          @change="changeFlat"
         />
       </label>
     </div>
@@ -68,13 +68,13 @@ export default {
     changeHouse(event) {
       this.setAddress({
         ...this.address,
-        house: event.target.value,
+        building: event.target.value,
       });
     },
-    changeApartment(event) {
+    changeFlat(event) {
       this.setAddress({
         ...this.address,
-        apartment: event.target.value,
+        flat: event.target.value,
       });
     },
   },

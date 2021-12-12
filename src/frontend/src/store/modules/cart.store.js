@@ -25,8 +25,9 @@ const newAddress = {
   id: null,
   name: "Новый адрес",
   street: "",
-  house: "",
-  apartment: "",
+  building: "",
+  flat: "",
+  comment: "",
 };
 
 export default {
@@ -125,7 +126,39 @@ export default {
       });
       dispatch("setPizzas", newPizzas);
     },
-    makeOrder({ dispatch }) {
+    async makeOrder({ dispatch, state, rootState }, userId) {
+      const pizzas = state.pizzas.map((pizza) => {
+        return {
+          name: pizza.name,
+          sauceId: pizza.sauce.id,
+          doughId: pizza.dough.id,
+          sizeId: pizza.size.id,
+          quantity: pizza.count,
+          ingredients: pizza.ingredients
+            .filter((ingredient) => ingredient.count > 0)
+            .map((ingredient) => {
+              return {
+                ingredientId: ingredient.id,
+                quantity: ingredient.count,
+              };
+            }),
+        };
+      });
+      const misc = rootState.Goods.goods.map((product) => {
+        return {
+          miscId: product.id,
+          quantity: product.count,
+        };
+      });
+      // eslint-disable-next-line no-unused-vars
+      const { id, ...address } = state.address;
+      const post = {
+        userId,
+        pizzas,
+        misc,
+        address,
+      };
+      await this.$api.orders.post(post);
       dispatch("resetAddress");
       dispatch("setDeliveryType", DELIVERY_TYPE_SELF);
       dispatch("setPhone", "");

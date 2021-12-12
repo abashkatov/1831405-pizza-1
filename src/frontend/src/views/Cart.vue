@@ -150,12 +150,12 @@ export default {
     changePhone(event) {
       this.setPhone(event.target.value);
     },
-    closePopup() {
+    async closePopup() {
       this.showModal = false;
-      this.makeOrder();
+      this.makeOrder(this.user?.id ?? null);
       this.user === null
-        ? this.$router.push({ name: "Constructor" }).catch()
-        : this.$router.push({ name: "Orders" }).catch();
+        ? await this.$router.push({ name: "Constructor" }).catch()
+        : await this.$router.push({ name: "Orders" }).catch();
     },
   },
 };
