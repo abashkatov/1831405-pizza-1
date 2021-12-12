@@ -4,8 +4,8 @@
     <button
       type="button"
       class="button"
-      :class="{ 'button--disabled': name.length < 3 }"
-      :disabled="name.length < 3"
+      :class="{ 'button--disabled': !canCook }"
+      :disabled="!canCook"
       @click="addPizzaToCart"
     >
       Готовьте!
@@ -37,6 +37,12 @@ export default {
       return (
         this.selectedSize.multiplier *
         (this.selectedDough.price + this.selectedSauce.price + ingredientsPrice)
+      );
+    },
+    canCook() {
+      return (
+        this.name.length >= 3 &&
+        this.ingredients.reduce((prev, cur) => prev + cur.count, 0) > 0
       );
     },
   },
