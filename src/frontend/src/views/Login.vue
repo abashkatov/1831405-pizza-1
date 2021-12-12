@@ -15,6 +15,7 @@
             name="email"
             placeholder="example@mail.ru"
             v-model="email"
+            required
           />
         </label>
       </div>
@@ -27,6 +28,7 @@
             name="pass"
             placeholder="***********"
             v-model="password"
+            required
           />
         </label>
       </div>
