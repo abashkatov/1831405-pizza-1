@@ -153,7 +153,10 @@ export default {
     },
     async closePopup() {
       this.showModal = false;
-      await this.makeOrder(this.user?.id ?? null);
+      await this.makeOrder({
+        userId: this.user?.id ?? null,
+        deliveryType: this.deliveryType,
+      });
       this.user === null
         ? await this.$router.push({ name: "Constructor" }).catch()
         : await this.$router.push({ name: "Orders" }).catch();
