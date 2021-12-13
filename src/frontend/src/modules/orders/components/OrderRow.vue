@@ -10,7 +10,13 @@
       </div>
 
       <div class="order__button">
-        <button type="button" class="button button--border">Удалить</button>
+        <button
+          type="button"
+          class="button button--border"
+          @click="deleteOrder(order.id)"
+        >
+          Удалить
+        </button>
       </div>
       <div class="order__button">
         <button type="button" class="button">Повторить</button>
@@ -40,6 +46,7 @@
 import { pizzaCost } from "@/common/helper";
 import PizzaRow from "./PizzaRow";
 import ProductRow from "./ProductRow";
+import { mapActions } from "vuex";
 
 export default {
   name: "OrderRow",
@@ -68,6 +75,9 @@ export default {
         ? this.order.address.name
         : `${this.order.address.street}, дом ${this.order.address.building}, квартира ${this.order.address.flat}`;
     },
+  },
+  methods: {
+    ...mapActions("Orders", ["deleteOrder"]),
   },
 };
 </script>

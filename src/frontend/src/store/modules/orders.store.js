@@ -1,4 +1,4 @@
-import { SET_ENTITY } from "@/store/mutation-types";
+import { SET_ENTITY, DELETE_ENTITY } from "@/store/mutation-types";
 import resources from "@/common/enums/resources";
 import { uniqueId } from "lodash";
 
@@ -62,6 +62,17 @@ export default {
         return order;
       });
       dispatch("setOrders", orders);
+    },
+    async deleteOrder({ commit }, orderId) {
+      await this.$api[resources.ORDERS].delete(orderId);
+      commit(
+        DELETE_ENTITY,
+        {
+          ...namespaceOrders,
+          id: orderId,
+        },
+        { root: true }
+      );
     },
     setOrders({ commit }, orders) {
       commit(
