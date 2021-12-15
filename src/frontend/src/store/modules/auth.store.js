@@ -20,9 +20,6 @@ export default {
     addresses: [],
   },
   actions: {
-    fetch({ dispatch }) {
-      dispatch("fetchAddresses");
-    },
     async fetchUser({ dispatch }) {
       try {
         const data = await this.$api.auth.getMe();
@@ -31,6 +28,7 @@ export default {
           avatar: data.avatar.slice(0, -4),
         };
         dispatch("setUser", user);
+        dispatch("fetchAddresses");
       } catch {
         dispatch("logout", false);
       }

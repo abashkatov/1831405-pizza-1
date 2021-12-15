@@ -1,6 +1,7 @@
 import { SET_ENTITY, DELETE_ENTITY } from "@/store/mutation-types";
 import resources from "@/common/enums/resources";
 import { uniqueId } from "lodash";
+import { pizzaCost } from "../../common/helper";
 
 const module = "Orders";
 
@@ -21,7 +22,7 @@ export default {
           address: null,
           products: orderData.orderMisc.map((misc) => {
             const product = rootState.Goods.goods.find(
-              (good) => good.id === misc.id
+              (good) => good.id === misc.miscId
             );
             return {
               ...product,
@@ -42,15 +43,17 @@ export default {
               ),
               count: pizza.quantity,
               name: pizza.name,
-              ingredients: pizza.ingredients.map((ingredientLink) => {
-                const ingredient = rootState.Builder.ingredients.find(
-                  (item) => ingredientLink.ingredientId === item.id
-                );
-                return {
-                  ...ingredient,
-                  count: ingredientLink.quantity,
-                };
-              }),
+              ingredients: rootState.Builder.ingredients.map(
+                (ingredientSource) => {
+                  const ingredientLink = pizza.ingredients.find(
+                    (item) => item.ingredientId === ingredientSource.id
+                  );
+                  return {
+                    ...ingredientSource,
+                    count: ingredientLink?.quantity ?? 0,
+                  };
+                }
+              ),
             };
           }),
         };
@@ -62,6 +65,22 @@ export default {
         return order;
       });
       dispatch("setOrders", orders);
+    },
+    addOrderToCart({ dispatch }, { pizzas, products }) {
+      const pizzasWithPrice = pizzas.map((pizza) => {
+        return {
+          ...pizza,
+          price: pizzaCost(pizza),
+        };
+      });
+      dispatch("Cart/setPizzas", pizzasWithPrice, { root: true });
+      products.forEach((product) =>
+        dispatch(
+          "Goods/changeGoodsCount",
+          { itemId: product.id, newCount: product.count },
+          { root: true }
+        )
+      );
     },
     async deleteOrder({ commit }, orderId) {
       await this.$api[resources.ORDERS].delete(orderId);

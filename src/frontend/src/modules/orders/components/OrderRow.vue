@@ -19,7 +19,9 @@
         </button>
       </div>
       <div class="order__button">
-        <button type="button" class="button">Повторить</button>
+        <button type="button" class="button" @click="addOrderToCart(order)">
+          Повторить
+        </button>
       </div>
     </div>
 
@@ -77,7 +79,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("Orders", ["deleteOrder"]),
+    ...mapActions("Orders", ["deleteOrder", "addOrderToCart"]),
   },
 };
 </script>

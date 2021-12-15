@@ -15,6 +15,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import { pizzaCost } from "../../../common/helper";
 
 export default {
   name: "BuilderPriceCounter",
@@ -29,15 +30,12 @@ export default {
       "count",
     ]),
     totalPrice: function () {
-      const ingredientsPrice = this.ingredients.reduce(
-        (prev, cur) => prev + cur.price * cur.count,
-        0
-      );
-
-      return (
-        this.selectedSize.multiplier *
-        (this.selectedDough.price + this.selectedSauce.price + ingredientsPrice)
-      );
+      return pizzaCost({
+        ingredients: this.ingredients,
+        size: this.selectedSize,
+        dough: this.selectedDough,
+        sauce: this.selectedSauce,
+      });
     },
     canCook() {
       return (

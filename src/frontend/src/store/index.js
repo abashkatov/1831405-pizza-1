@@ -22,7 +22,6 @@ export const state = () => ({
 
 const actions = {
   async init({ dispatch }) {
-    dispatch("Auth/fetch");
     dispatch("Builder/fetch");
     dispatch("Goods/fetch");
   },
