@@ -19,7 +19,7 @@
         </button>
       </div>
       <div class="order__button">
-        <button type="button" class="button" @click="addOrderToCart(order)">
+        <button type="button" class="button" @click="repeatOrder">
           Повторить
         </button>
       </div>
@@ -80,6 +80,10 @@ export default {
   },
   methods: {
     ...mapActions("Orders", ["deleteOrder", "addOrderToCart"]),
+    async repeatOrder() {
+      this.addOrderToCart(this.order);
+      await this.$router.push({ name: "Cart" });
+    },
   },
 };
 </script>

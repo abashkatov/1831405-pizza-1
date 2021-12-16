@@ -112,7 +112,7 @@ export default {
           DELETE_ENTITY,
           {
             ...namespacePizzas,
-            id: state.pizzas[itemId].id,
+            id: itemId,
           },
           { root: true }
         );
