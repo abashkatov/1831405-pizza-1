@@ -76,6 +76,7 @@
         type="button"
         class="button button--transparent"
         @click="removeAddress"
+        v-if="isExisting"
       >
         Удалить
       </button>
@@ -102,6 +103,11 @@ export default {
     address: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    isExisting() {
+      return !!this.address.id;
     },
   },
   methods: {
