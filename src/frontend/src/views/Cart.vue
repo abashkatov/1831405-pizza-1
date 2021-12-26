@@ -64,7 +64,7 @@
           </div>
         </div>
       </main>
-      <CartFooter @makeOrder="showModal = true" />
+      <CartFooter @makeOrder="makeOrderAndShowModal" />
       <OrderThanks v-if="showModal" @closePopup="closePopup" />
     </form>
     <form v-else action="#" method="post" class="layout-form">
@@ -153,13 +153,16 @@ export default {
     },
     async closePopup() {
       this.showModal = false;
+      this.user === null
+        ? await this.$router.push({ name: "Constructor" }).catch()
+        : await this.$router.push({ name: "Orders" }).catch();
+    },
+    async makeOrderAndShowModal() {
+      this.showModal = true;
       await this.makeOrder({
         userId: this.user?.id ?? null,
         deliveryType: this.deliveryType,
       });
-      this.user === null
-        ? await this.$router.push({ name: "Constructor" }).catch()
-        : await this.$router.push({ name: "Orders" }).catch();
     },
   },
 };
