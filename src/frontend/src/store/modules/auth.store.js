@@ -106,6 +106,8 @@ export default {
     },
   },
   getters: {
-    isAuthenticated: (state) => state.user !== null,
+    isAuthenticated: (state) => {
+      return state.user !== null;
+    },
   },
 };
