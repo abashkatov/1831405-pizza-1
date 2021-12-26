@@ -4,8 +4,8 @@
     <button
       type="button"
       class="button"
-      :class="{ 'button--disabled': name.length < 3 }"
-      :disabled="name.length < 3"
+      :class="{ 'button--disabled': !canCook }"
+      :disabled="!canCook"
       @click="addPizzaToCart"
     >
       Готовьте!
@@ -15,6 +15,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import { pizzaCost } from "../../../common/helper";
 
 export default {
   name: "BuilderPriceCounter",
@@ -29,14 +30,17 @@ export default {
       "count",
     ]),
     totalPrice: function () {
-      const ingredientsPrice = this.ingredients.reduce(
-        (prev, cur) => prev + cur.price * cur.count,
-        0
-      );
-
+      return pizzaCost({
+        ingredients: this.ingredients,
+        size: this.selectedSize,
+        dough: this.selectedDough,
+        sauce: this.selectedSauce,
+      });
+    },
+    canCook() {
       return (
-        this.selectedSize.multiplier *
-        (this.selectedDough.price + this.selectedSauce.price + ingredientsPrice)
+        this.name.length >= 3 &&
+        this.ingredients.reduce((prev, cur) => prev + cur.count, 0) > 0
       );
     },
   },

@@ -64,7 +64,7 @@
           </div>
         </div>
       </main>
-      <CartFooter @makeOrder="showModal = true" />
+      <CartFooter @makeOrder="makeOrderAndShowModal" />
       <OrderThanks v-if="showModal" @closePopup="closePopup" />
     </form>
     <form v-else action="#" method="post" class="layout-form">
@@ -134,13 +134,14 @@ export default {
       "makeOrder",
     ]),
     setDeliveryType(event) {
-      const deliveryType = event.target.value.toString();
+      const deliveryType = event.target.value;
       this.selectedDeliveryType = deliveryType;
       if (deliveryType === DELIVERY_TYPE_NEW_ADDRESS) {
         this.resetAddress();
       } else if (deliveryType !== DELIVERY_TYPE_SELF) {
+        const addressId = Number(deliveryType);
         const address = this.addresses.find((curAddress) => {
-          return curAddress.id === deliveryType;
+          return curAddress.id === addressId;
         });
         if (typeof address !== "undefined") {
           this.setAddress(address);
@@ -150,12 +151,18 @@ export default {
     changePhone(event) {
       this.setPhone(event.target.value);
     },
-    closePopup() {
+    async closePopup() {
       this.showModal = false;
-      this.makeOrder();
       this.user === null
-        ? this.$router.push({ name: "Constructor" }).catch()
-        : this.$router.push({ name: "Orders" }).catch();
+        ? await this.$router.push({ name: "Constructor" }).catch()
+        : await this.$router.push({ name: "Orders" }).catch();
+    },
+    async makeOrderAndShowModal() {
+      this.showModal = true;
+      await this.makeOrder({
+        userId: this.user?.id ?? null,
+        deliveryType: this.deliveryType,
+      });
     },
   },
 };

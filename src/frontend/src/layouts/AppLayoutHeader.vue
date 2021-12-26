@@ -32,9 +32,7 @@
         </picture>
         <span>{{ user.name }}</span>
       </router-link>
-      <router-link to="/logout" class="header__logout"
-        ><span>Выйти</span></router-link
-      >
+      <a href="#" class="header__logout" @click="$logout"><span>Выйти</span></a>
     </div>
     <div v-else class="header__user">
       <router-link to="/login" class="header__login"
@@ -46,9 +44,11 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { logout } from "@/common/mixins";
 
 export default {
   name: "AppLayoutHeader",
+  mixins: [logout],
   computed: {
     ...mapState("Auth", ["user"]),
     ...mapGetters("Cart", ["getPizzasCost"]),

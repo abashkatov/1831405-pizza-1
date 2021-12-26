@@ -1,15 +1,19 @@
 <template>
   <div id="app">
     <component :is="layout">
+      <AppNotifications />
       <router-view />
     </component>
   </div>
 </template>
 
 <script>
+import AppNotifications from "@/common/components/AppNotifications";
+
 const defaultLayout = "AppLayoutDefault";
 
 export default {
+  components: { AppNotifications },
   name: "App",
   computed: {
     layout: function () {
@@ -18,7 +22,6 @@ export default {
     },
   },
   created() {
-    // Note: fetch initial data
     this.$store.dispatch("init");
   },
 };

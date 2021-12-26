@@ -6,6 +6,7 @@ import {
   UPDATE_ENTITY,
 } from "../mutation-types";
 import { uniqueId } from "lodash";
+import { pizzaCost } from "../../common/helper";
 
 const module = "Cart";
 
@@ -25,8 +26,9 @@ const newAddress = {
   id: null,
   name: "Новый адрес",
   street: "",
-  house: "",
-  apartment: "",
+  building: "",
+  flat: "",
+  comment: "",
 };
 
 export default {
@@ -110,7 +112,7 @@ export default {
           DELETE_ENTITY,
           {
             ...namespacePizzas,
-            id: state.pizzas[itemId].id,
+            id: itemId,
           },
           { root: true }
         );
@@ -125,7 +127,41 @@ export default {
       });
       dispatch("setPizzas", newPizzas);
     },
-    makeOrder({ dispatch }) {
+    async makeOrder({ dispatch, state, rootState }, { userId, deliveryType }) {
+      const pizzas = state.pizzas.map((pizza) => {
+        return {
+          name: pizza.name,
+          sauceId: pizza.sauce.id,
+          doughId: pizza.dough.id,
+          sizeId: pizza.size.id,
+          quantity: pizza.count,
+          ingredients: pizza.ingredients
+            .filter((ingredient) => ingredient.count > 0)
+            .map((ingredient) => {
+              return {
+                ingredientId: ingredient.id,
+                quantity: ingredient.count,
+              };
+            }),
+        };
+      });
+      const misc = rootState.Goods.goods.map((product) => {
+        return {
+          miscId: product.id,
+          quantity: product.count,
+        };
+      });
+      // eslint-disable-next-line no-unused-vars
+      const { id, ...address } = state.address;
+      const post = {
+        userId,
+        pizzas,
+        misc,
+      };
+      if (deliveryType !== DELIVERY_TYPE_SELF) {
+        post.address = address;
+      }
+      await this.$api.orders.post(post);
       dispatch("resetAddress");
       dispatch("setDeliveryType", DELIVERY_TYPE_SELF);
       dispatch("setPhone", "");
@@ -136,18 +172,10 @@ export default {
   },
   getters: {
     getPizzasCost(state) {
-      return state.pizzas.reduce((prevCost, pizza) => {
-        const ingredientsCost = pizza.ingredients.reduce(
-          (prev, cur) => prev + cur.price * cur.count,
-          0
-        );
-        return (
-          prevCost +
-          pizza.size.multiplier *
-            pizza.count *
-            (pizza.dough.price + pizza.sauce.price + ingredientsCost)
-        );
-      }, 0);
+      return state.pizzas.reduce(
+        (prevCost, pizza) => prevCost + pizzaCost(pizza) * pizza.count,
+        0
+      );
     },
   },
 };

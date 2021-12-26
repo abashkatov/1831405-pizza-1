@@ -6,18 +6,30 @@
     <div class="sign-form__title">
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
-    <form action="/" method="post">
+    <form action="/" method="post" @submit.prevent="signIn">
       <div class="sign-form__input">
         <label class="input">
           <span>E-mail</span>
-          <input type="email" name="email" placeholder="example@mail.ru" />
+          <input
+            type="email"
+            name="email"
+            placeholder="example@mail.ru"
+            v-model="email"
+            required
+          />
         </label>
       </div>
 
       <div class="sign-form__input">
         <label class="input">
           <span>Пароль</span>
-          <input type="password" name="pass" placeholder="***********" />
+          <input
+            type="password"
+            name="pass"
+            placeholder="***********"
+            v-model="password"
+            required
+          />
         </label>
       </div>
       <button type="submit" class="button">Авторизоваться</button>
@@ -26,8 +38,23 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    ...mapActions("Auth", ["login"]),
+    async signIn() {
+      await this.login({ email: this.email, password: this.password });
+      await this.$router.push("/");
+    },
+  },
 };
 </script>
 

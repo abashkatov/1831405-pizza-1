@@ -1,9 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import { uniqueId } from 'lodash';
+import { uniqueId } from "lodash";
 import modules from "@/store/modules";
+import { MESSAGE_LIVE_TIME } from "@/common/constants";
+import VuexPlugins from "@/plugins/vuexPlugins";
 
 import {
+  ADD_NOTIFICATION,
+  DELETE_NOTIFICATION,
   ADD_ENTITY,
   DELETE_ENTITY,
   SET_ENTITY,
@@ -12,15 +16,37 @@ import {
 
 Vue.use(Vuex);
 
+export const state = () => ({
+  notifications: [],
+});
+
 const actions = {
   async init({ dispatch }) {
-    dispatch("Auth/fetch");
     dispatch("Builder/fetch");
     dispatch("Goods/fetch");
+  },
+  async createNotification({ commit }, { ...notification }) {
+    const uniqueNotification = {
+      ...notification,
+      id: uniqueId(),
+    };
+    commit(ADD_NOTIFICATION, uniqueNotification);
+    setTimeout(
+      () => commit(DELETE_NOTIFICATION, uniqueNotification.id),
+      MESSAGE_LIVE_TIME
+    );
   },
 };
 
 const mutations = {
+  [ADD_NOTIFICATION](state, notification) {
+    state.notifications = [...state.notifications, notification];
+  },
+  [DELETE_NOTIFICATION](state, id) {
+    state.notifications = state.notifications.filter(
+      (notification) => notification.id !== id
+    );
+  },
   [SET_ENTITY](state, { module, entity, value }) {
     module ? (state[module][entity] = value) : (state[entity] = value);
   },
@@ -58,9 +84,10 @@ const mutations = {
 };
 
 export default new Vuex.Store({
-  state: {},
+  state,
   getters: {},
-  mutations: mutations,
-  actions: actions,
-  modules: modules,
+  mutations,
+  actions,
+  modules,
+  plugins: [VuexPlugins],
 });

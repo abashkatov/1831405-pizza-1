@@ -7,10 +7,10 @@
           <p>Основной соус:</p>
           <RadioButton
             name="sauce"
-            :items="sauceRadioButtons"
+            :items="sauces"
             labelClass="ingridients__input"
             @changeItem="changeSauce"
-            :selected-id="selectedSauce.id"
+            :selected-id="selectedSauce.id ? selectedSauce.id : -1"
           />
         </div>
         <div class="ingridients__filling">
@@ -59,15 +59,6 @@ export default {
   components: { AppDrag, ItemCounter, RadioButton },
   computed: {
     ...mapState("Builder", ["sauces", "selectedSauce", "ingredients"]),
-    sauceRadioButtons: function () {
-      return this.sauces.map(function (sauce) {
-        return {
-          id: sauce.id,
-          alias: sauce.alias,
-          name: sauce.name,
-        };
-      });
-    },
   },
   methods: {
     ...mapActions("Builder", ["setSauce", "changeIngredientCount"]),

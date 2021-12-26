@@ -1,6 +1,9 @@
-import user from "@/static/user.json";
-import { ADD_ENTITY, SET_ENTITY } from "../mutation-types";
-import { uniqueId } from "lodash";
+import {
+  ADD_ENTITY,
+  DELETE_ENTITY,
+  SET_ENTITY,
+  UPDATE_ENTITY,
+} from "../mutation-types";
 
 const module = "Auth";
 
@@ -17,22 +20,69 @@ export default {
     addresses: [],
   },
   actions: {
-    fetch({ dispatch }) {
+    async fetchUser({ dispatch }) {
+      try {
+        const data = await this.$api.auth.getMe();
+        const user = {
+          ...data,
+          avatar: data.avatar.slice(0, -4),
+        };
+        dispatch("setUser", user);
+        dispatch("fetchAddresses");
+      } catch {
+        dispatch("logout", false);
+      }
+    },
+    async login({ dispatch }, credentials) {
+      const data = await this.$api.auth.login(credentials);
+      this.$jwt.saveToken(data.token);
+      this.$api.auth.setAuthHeader();
       dispatch("fetchUser");
-      dispatch("fetchAddresses");
     },
-    fetchUser({ dispatch }) {
-      dispatch("setUser", user);
+    async logout({ dispatch }, sendRequest = true) {
+      if (sendRequest) {
+        await this.$api.auth.logout();
+      }
+      this.$jwt.destroyToken();
+      this.$api.auth.setAuthHeader();
+      dispatch("setUser", null);
     },
-    fetchAddresses({ dispatch }) {
-      const address = {
-        id: uniqueId(),
-        name: "Мой первый адрес",
-        street: "Моя улица",
-        house: "333",
-        apartment: "222",
-      };
-      dispatch("addAddress", address);
+    async fetchAddresses({ dispatch }) {
+      const addresses = await this.$api.addresses.query();
+      dispatch("setAddresses", addresses);
+    },
+    async updateAddress({ commit }, address) {
+      await this.$api.addresses.put(address);
+      commit(
+        UPDATE_ENTITY,
+        {
+          ...namespaceAddresses,
+          value: address,
+        },
+        { root: true }
+      );
+    },
+    async deleteAddress({ commit }, id) {
+      await this.$api.addresses.delete(id);
+      commit(
+        DELETE_ENTITY,
+        {
+          ...namespaceAddresses,
+          id,
+        },
+        { root: true }
+      );
+    },
+    async addAddress({ commit }, address) {
+      const newAddress = await this.$api.addresses.post(address);
+      commit(
+        ADD_ENTITY,
+        {
+          ...namespaceAddresses,
+          value: newAddress,
+        },
+        { root: true }
+      );
     },
     setUser({ commit }, user) {
       commit(
@@ -54,15 +104,10 @@ export default {
         { root: true }
       );
     },
-    addAddress({ commit }, address) {
-      commit(
-        ADD_ENTITY,
-        {
-          ...namespaceAddresses,
-          value: address,
-        },
-        { root: true }
-      );
+  },
+  getters: {
+    isAuthenticated: (state) => {
+      return state.user !== null;
     },
   },
 };
