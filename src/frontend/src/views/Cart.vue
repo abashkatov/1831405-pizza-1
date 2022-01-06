@@ -65,7 +65,6 @@
         </div>
       </main>
       <CartFooter @makeOrder="makeOrderAndShowModal" />
-      <OrderThanks v-if="showModal" @closePopup="closePopup" />
     </form>
     <form v-else action="#" method="post" class="layout-form">
       <main class="content cart">
@@ -79,6 +78,9 @@
         </div>
       </main>
     </form>
+    <transition name="fade" @after-leave="afterLeaveAnimation">
+      <OrderThanks v-if="showModal" @closePopup="closePopup" />
+    </transition>
   </div>
 </template>
 
@@ -132,6 +134,7 @@ export default {
       "resetAddress",
       "setPhone",
       "makeOrder",
+      "clearCart",
     ]),
     setDeliveryType(event) {
       const deliveryType = event.target.value;
@@ -153,9 +156,6 @@ export default {
     },
     async closePopup() {
       this.showModal = false;
-      this.user === null
-        ? await this.$router.push({ name: "Constructor" }).catch()
-        : await this.$router.push({ name: "Orders" }).catch();
     },
     async makeOrderAndShowModal() {
       this.showModal = true;
@@ -164,8 +164,25 @@ export default {
         deliveryType: this.deliveryType,
       });
     },
+    async afterLeaveAnimation() {
+      if (!this.showModal) {
+        this.clearCart();
+        this.user === null
+          ? await this.$router.push({ name: "Constructor" }).catch()
+          : await this.$router.push({ name: "Orders" }).catch();
+      }
+    },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

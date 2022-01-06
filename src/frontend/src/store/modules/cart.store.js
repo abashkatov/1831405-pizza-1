@@ -127,7 +127,7 @@ export default {
       });
       dispatch("setPizzas", newPizzas);
     },
-    async makeOrder({ dispatch, state, rootState }, { userId, deliveryType }) {
+    async makeOrder({ state, rootState }, { userId, deliveryType }) {
       const pizzas = state.pizzas.map((pizza) => {
         return {
           name: pizza.name,
@@ -162,6 +162,8 @@ export default {
         post.address = address;
       }
       await this.$api.orders.post(post);
+    },
+    clearCart({ dispatch }) {
       dispatch("resetAddress");
       dispatch("setDeliveryType", DELIVERY_TYPE_SELF);
       dispatch("setPhone", "");
