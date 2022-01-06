@@ -2,13 +2,16 @@
   <div id="app">
     <component :is="layout">
       <AppNotifications />
-      <router-view />
+      <transition name="slide" mode="out-in" appear>
+        <router-view :key="$route.path"></router-view>
+      </transition>
     </component>
   </div>
 </template>
 
 <script>
 import AppNotifications from "@/common/components/AppNotifications";
+import { setAuth } from "@/common/helper";
 
 const defaultLayout = "AppLayoutDefault";
 
@@ -22,6 +25,9 @@ export default {
     },
   },
   created() {
+    if (this.$jwt.getToken()) {
+      setAuth(this.$store);
+    }
     this.$store.dispatch("init");
   },
 };
@@ -29,4 +35,16 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/scss/app";
+.slide-enter-active {
+  transition: all 0.2s;
+}
+.slide-enter {
+  opacity: 0;
+  margin-left: 190px;
+}
+.slide-leave-active {
+  transition: all 0.2s;
+  opacity: 0;
+  margin-left: -200px;
+}
 </style>

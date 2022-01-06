@@ -2,12 +2,14 @@
   <AppDrop class="content__constructor" @drop="addIngredient">
     <div :class="`pizza pizza--foundation--${doughsSize}-${sauce.alias}`">
       <div class="pizza__wrapper">
-        <div
-          v-for="(ingridient, key) in selectedIngredients"
-          class="pizza__filling"
-          :key="key"
-          :class="ingridient"
-        />
+        <transition-group name="fade" mode="out-in">
+          <div
+            v-for="ingridient in selectedIngredients"
+            class="pizza__filling"
+            :key="ingridient.join('-')"
+            :class="ingridient"
+          />
+        </transition-group>
       </div>
     </div>
   </AppDrop>
@@ -55,4 +57,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

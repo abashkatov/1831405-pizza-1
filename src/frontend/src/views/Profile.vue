@@ -4,7 +4,7 @@
       <h1 class="title title--big">Мои данные</h1>
     </div>
 
-    <div class="user">
+    <div class="user" v-if="user">
       <picture>
         <source
           type="image/webp"
