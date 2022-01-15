@@ -1,9 +1,13 @@
 <template>
   <AppDrop class="content__constructor" @drop="addIngredient">
-    <div :class="`pizza pizza--foundation--${doughsSize}-${sauce.alias}`">
+    <div
+      :class="`pizza pizza--foundation--${doughsSize}-${sauce.alias}`"
+      data-test="pizza-outer"
+    >
       <div class="pizza__wrapper">
         <transition-group name="fade" mode="out-in">
           <div
+            data-test="ingredient"
             v-for="ingridient in selectedIngredients"
             class="pizza__filling"
             :key="ingridient.join('-')"

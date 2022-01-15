@@ -8,6 +8,7 @@
           :key="dough.id"
           class="dough__input"
           :class="`dough__input--${dough.alias}`"
+          data-test="dough"
         >
           <input
             type="radio"

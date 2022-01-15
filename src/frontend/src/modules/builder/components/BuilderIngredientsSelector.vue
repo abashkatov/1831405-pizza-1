@@ -11,6 +11,7 @@
             labelClass="ingridients__input"
             @changeItem="changeSauce"
             :selected-id="selectedSauce.id ? selectedSauce.id : -1"
+            data-test="sauce-radio-button"
           />
         </div>
         <div class="ingridients__filling">
@@ -20,6 +21,7 @@
               v-for="ingredient in ingredients"
               :key="ingredient.id"
               class="ingridients__item"
+              data-test="ingredient-li"
             >
               <AppDrag
                 :transfer-data="ingredient"
@@ -39,6 +41,7 @@
                       newCount: $event,
                     })
                   "
+                  data-test="ingredient-counter"
                 />
               </AppDrag>
             </li>
