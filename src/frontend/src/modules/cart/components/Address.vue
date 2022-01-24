@@ -1,11 +1,14 @@
 <template>
   <div class="cart-form__address">
-    <span class="cart-form__label">{{ address.name }}:</span>
+    <span data-test="addressName" class="cart-form__label"
+      >{{ address.name }}:</span
+    >
 
     <div class="cart-form__input">
       <label class="input">
         <span>Улица*</span>
         <input
+          data-test="addressStreet"
           :disabled="!isEditable"
           type="text"
           name="street"
@@ -19,6 +22,7 @@
       <label class="input">
         <span>Дом*</span>
         <input
+          data-test="addressHouse"
           :disabled="!isEditable"
           type="text"
           name="house"
@@ -32,6 +36,7 @@
       <label class="input">
         <span>Квартира</span>
         <input
+          data-test="addressApartment"
           :disabled="!isEditable"
           type="text"
           name="apartment"

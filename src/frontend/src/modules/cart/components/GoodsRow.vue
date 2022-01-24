@@ -1,12 +1,19 @@
 <template>
   <li class="additional-list__item sheet">
     <p class="additional-list__description">
-      <img :src="good.image" width="39" height="60" :alt="good.name" />
-      <span>{{ good.name }}</span>
+      <img
+        data-test="image"
+        :src="good.image"
+        width="39"
+        height="60"
+        :alt="good.name"
+      />
+      <span data-test="name">{{ good.name }}</span>
     </p>
 
     <div class="additional-list__wrapper">
       <ItemCounter
+        data-test="counter"
         :title="good.name"
         counterClass="additional-list__counter"
         :item-id="good.id"
@@ -21,7 +28,7 @@
         "
       >
         <div class="additional-list__price">
-          <b>{{ totalPrice }} ₽</b>
+          <b data-test="price">{{ totalPrice }} ₽</b>
         </div>
       </ItemCounter>
     </div>
