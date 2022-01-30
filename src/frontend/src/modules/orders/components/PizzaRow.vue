@@ -2,6 +2,7 @@
   <li class="order__item">
     <div class="product">
       <img
+        data-test="pizzaImg"
         src="/public/img/product.svg"
         class="product__img"
         width="56"
@@ -9,8 +10,8 @@
         :alt="pizza.name"
       />
       <div class="product__text">
-        <h2>{{ pizza.name }}</h2>
-        <p>
+        <h2 data-test="pizzaName">{{ pizza.name }}</h2>
+        <p data-test="pizzaDescription">
           {{ pizza.size.name }}, на {{ pizza.dough.prepositional }} тесте<br />
           Соус: {{ pizza.sauce.name.toLowerCase() }}<br />
           Начинка: {{ ingredients }}
@@ -18,7 +19,9 @@
       </div>
     </div>
 
-    <p class="order__price">{{ pizzaCount }}{{ pizzaPrice }} ₽</p>
+    <p class="order__price" data-test="pizzaTotal">
+      {{ pizzaCount }}{{ pizzaPrice }} ₽
+    </p>
   </li>
 </template>
 

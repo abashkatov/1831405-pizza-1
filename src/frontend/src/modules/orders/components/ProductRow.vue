@@ -1,9 +1,15 @@
 <template>
   <li>
-    <img :src="product.image" width="20" height="30" :alt="product.name" />
+    <img
+      data-test="productImage"
+      :src="product.image"
+      width="20"
+      height="30"
+      :alt="product.name"
+    />
     <p>
-      <span>{{ product.name }}</span>
-      <b>{{ productCount }}{{ productPrice }} ₽</b>
+      <span data-test="productName">{{ product.name }}</span>
+      <b data-test="productPrice">{{ productCount }}{{ productPrice }} ₽</b>
     </p>
   </li>
 </template>
