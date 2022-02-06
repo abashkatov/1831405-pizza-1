@@ -72,4 +72,14 @@ describe("BuilderSizeSelector", () => {
     const sizeElements = wrapper.find('[data-test="sizeName"');
     expect(sizeElements.text()).toEqual("23 см");
   });
+
+  it("Правильно отрабатывает изменение ращмера", async () => {
+    loadSizes(store);
+    createComponent({ store });
+    wrapper.find('[data-test="sizeRadio"').trigger("click");
+    expect(actions.Builder.setSize).toHaveBeenCalledWith(
+      expect.anything(),
+      sizes[0]
+    );
+  });
 });

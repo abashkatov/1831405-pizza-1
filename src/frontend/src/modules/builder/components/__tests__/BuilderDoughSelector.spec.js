@@ -14,11 +14,17 @@ const loadDoughs = (store, doughs) => {
 describe("BuilderDoughSelector", () => {
   let store;
   let wrapper;
+  let actions;
   const createComponent = (options) => {
     wrapper = shallowMount(BuilderDoughSelector, options);
   };
   beforeEach(() => {
-    store = generateMockStore({});
+    actions = {
+      Builder: {
+        setDough: jest.fn(),
+      },
+    };
+    store = generateMockStore({ actions });
   });
   afterEach(() => {
     wrapper.destroy();
@@ -39,5 +45,15 @@ describe("BuilderDoughSelector", () => {
     expect(doughWrapper.text()).toContain(firstDough.name);
     expect(doughWrapper.text()).toContain(firstDough.description);
     expect(doughWrapper.html()).toContain(`dough__input--${firstDough.alias}`);
+  });
+
+  it("Правильно отрабатывает клик по кнопке", async () => {
+    loadDoughs(store, dough);
+    createComponent({ store });
+    await wrapper.find('[data-test="radioButton"').trigger("click");
+    expect(actions.Builder.setDough).toHaveBeenCalledWith(
+      expect.anything(),
+      dough[0]
+    );
   });
 });

@@ -87,4 +87,28 @@ describe("BuilderIngredientsSelector", () => {
       ingredient.count.toString()
     );
   });
+
+  it("Правильно отрабатывает событие смены соуса", async () => {
+    loadSauces(store, baseSauces);
+    createComponent({ store, stubs });
+    await wrapper
+      .find('[data-test="sauce-radio-button"')
+      .vm.$emit("changeItem", 1);
+    expect(actions.Builder.setSauce).toHaveBeenCalledWith(
+      expect.anything(),
+      baseSauces[0]
+    );
+  });
+
+  it("Правильно отрабатывает событие изменения счётчика", async () => {
+    loadIngredients(store, [baseIngredients[0]]);
+    createComponent({ store, stubs });
+    await wrapper
+      .find('[data-test="ingredient-counter"')
+      .vm.$emit("countChanged", 2);
+    expect(actions.Builder.changeIngredientCount).toHaveBeenCalledWith(
+      expect.anything(),
+      { itemId: 1, newCount: 2 }
+    );
+  });
 });

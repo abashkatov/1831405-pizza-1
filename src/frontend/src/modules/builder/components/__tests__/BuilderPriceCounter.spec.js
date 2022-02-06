@@ -37,6 +37,16 @@ const pizzaWithoutIngredients = {
     price: 2,
   },
 };
+const expectedPizza = {
+  ingredients: pizzaWithIngredients.ingredients,
+  dough: pizzaWithIngredients.selectedDough,
+  size: pizzaWithIngredients.selectedSize,
+  sauce: pizzaWithIngredients.selectedSauce,
+  name: "Pizza Name",
+  count: 1,
+  price: 266,
+  id: null,
+};
 
 const loadPizza = (
   store,
@@ -125,53 +135,106 @@ describe("BuilderPriceCounter", () => {
   );
 
   const blockedButtonDataProvider = [
-    { data: pizzaWithIngredients, name: "", isButtonBlocked: true },
-    { data: pizzaWithIngredients, name: "mi", isButtonBlocked: true },
-    { data: pizzaWithIngredients, name: "Exist", isButtonBlocked: false },
-    { data: pizzaWithoutIngredients, name: "", isButtonBlocked: true },
-    { data: pizzaWithoutIngredients, name: "mi", isButtonBlocked: true },
-    { data: pizzaWithoutIngredients, name: "Exist", isButtonBlocked: true },
+    {
+      caption: "Заблокирована из-за отсутствия названия",
+      data: pizzaWithIngredients,
+      name: "",
+      isButtonBlocked: true,
+    },
+    {
+      caption: "Заблокирована из-за короткого названия",
+      data: pizzaWithIngredients,
+      name: "mi",
+      isButtonBlocked: true,
+    },
+    {
+      caption: "Разблокирована ",
+      data: pizzaWithIngredients,
+      name: "Exist",
+      isButtonBlocked: false,
+    },
+    {
+      caption:
+        "Заблокирована из-за отсутствия названия и отсутствия ингредиентов ",
+      data: pizzaWithoutIngredients,
+      name: "",
+      isButtonBlocked: true,
+    },
+    {
+      caption:
+        "Заблокирована из-за короткого названия и отсутствия ингредиентов ",
+      data: pizzaWithoutIngredients,
+      name: "mi",
+      isButtonBlocked: true,
+    },
+    {
+      caption: "Заблокирована из-за отсутствия ингредиентов",
+      data: pizzaWithoutIngredients,
+      name: "Exist",
+      isButtonBlocked: true,
+    },
   ];
-  it.each(blockedButtonDataProvider)(
+  describe.each(blockedButtonDataProvider)(
     "Верно блокируется кнопка",
-    ({ data, name, isButtonBlocked }) => {
-      loadPizza(store, {
-        ...data,
-        name,
-      });
-      createComponent({ store });
-      const button = wrapper.find('[data-test="buttonAddToCart"]');
+    ({ caption, data, name, isButtonBlocked }) => {
       if (isButtonBlocked) {
-        expect(button.attributes("disabled")).toBeDefined();
-        expect(button.attributes("class")).toContain("button--disabled");
+        it(caption, () => {
+          loadPizza(store, {
+            ...data,
+            name,
+          });
+          createComponent({ store });
+          const button = wrapper.find('[data-test="buttonAddToCart"]');
+          expect(button.attributes("disabled")).toBeDefined();
+          expect(button.classes()).toContain("button--disabled");
+        });
       } else {
-        expect(button.attributes("disabled")).not.toBeDefined();
-        expect(button.attributes("class")).not.toContain("button--disabled");
+        it(caption, () => {
+          loadPizza(store, {
+            ...data,
+            name,
+          });
+          createComponent({ store });
+          const button = wrapper.find('[data-test="buttonAddToCart"]');
+          expect(button.attributes("disabled")).not.toBeDefined();
+          expect(button.classes()).not.toContain("button--disabled");
+        });
       }
     }
   );
 
-  // it("Вызывается метод обновления пиццы, если редактируется пицца из корзины", async () => {
-  //   loadPizza(store, pizzaWithIngredients);
-  //   createComponent({ store, localVue });
-  //   const button = wrapper.find('[data-test="buttonAddToCart"]');
-  //   console.log(button.html());
-  //   await button.trigger("click");
-  //   expect(actions.Builder.resetSelectedPizza).toHaveBeenCalled();
-  //   expect(actions.Cart.addPizza).not.toHaveBeenCalled();
-  //   expect(actions.Cart.updatePizza).toHaveBeenCalled();
-  // });
+  it("Вызывается метод обновления пиццы, если редактируется пицца из корзины", async () => {
+    const pizza = {
+      ...pizzaWithIngredients,
+      name: expectedPizza.name,
+    };
+    loadPizza(store, pizza);
+    createComponent({ store });
+    const button = wrapper.find('[data-test="buttonAddToCart"]');
+    await button.trigger("click");
+    expect(actions.Builder.resetSelectedPizza).toHaveBeenCalled();
+    expect(actions.Cart.addPizza).toHaveBeenCalledWith(
+      expect.anything(),
+      expectedPizza
+    );
+    expect(actions.Cart.updatePizza).not.toHaveBeenCalled();
+  });
 
-  // it("Вызывается метод добавления пиццы, если пицца новая", async () => {
-  //   loadPizza(store, {
-  //     ...pizzaWithIngredients,
-  //     id: 1,
-  //   });
-  //   createComponent({ store });
-  //   const button = wrapper.find('[data-test="buttonAddToCart"]');
-  //   await button.trigger("click");
-  //   expect(actions.Builder.resetSelectedPizza).toHaveBeenCalled();
-  //   expect(actions.Cart.addPizza).toHaveBeenCalled();
-  //   expect(actions.Cart.updatePizza).not.toHaveBeenCalled();
-  // });
+  it("Вызывается метод добавления пиццы, если пицца новая", async () => {
+    const pizza = {
+      ...pizzaWithIngredients,
+      id: 1,
+      name: expectedPizza.name,
+    };
+    loadPizza(store, pizza);
+    createComponent({ store });
+    const button = wrapper.find('[data-test="buttonAddToCart"]');
+    await button.trigger("click");
+    expect(actions.Builder.resetSelectedPizza).toHaveBeenCalled();
+    expect(actions.Cart.addPizza).not.toHaveBeenCalled();
+    expect(actions.Cart.updatePizza).toHaveBeenCalledWith(expect.anything(), {
+      ...expectedPizza,
+      id: 1,
+    });
+  });
 });

@@ -11,6 +11,7 @@
           data-test="dough"
         >
           <input
+            data-test="radioButton"
             type="radio"
             name="dought"
             :value="dough.value"
