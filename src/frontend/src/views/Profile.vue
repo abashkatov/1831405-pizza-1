@@ -4,13 +4,15 @@
       <h1 class="title title--big">Мои данные</h1>
     </div>
 
-    <div class="user" v-if="user">
+    <div data-test="userData" class="user" v-if="user">
       <picture>
         <source
+          data-test="userSource"
           type="image/webp"
           :srcset="`${user.avatar}@2x.webp 1x,${user.avatar}@4x.webp 2x`"
         />
         <img
+          data-test="userImage"
           :src="`${user.avatar}@2x.jpg`"
           :srcset="`${user.avatar}@4x.jpg`"
           :alt="user.name"
@@ -19,14 +21,15 @@
         />
       </picture>
       <div class="user__name">
-        <span>{{ user.name }}</span>
+        <span data-test="userName">{{ user.name }}</span>
       </div>
       <p class="user__phone">
-        Контактный телефон: <span>{{ user.phone }}</span>
+        Контактный телефон: <span data-test="userPhone">{{ user.phone }}</span>
       </p>
     </div>
 
     <AddressRow
+      data-test="addressRow"
       v-for="address in addresses"
       :key="address.id"
       :address="address"

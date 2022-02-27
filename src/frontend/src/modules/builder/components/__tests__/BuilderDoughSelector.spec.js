@@ -33,14 +33,14 @@ describe("BuilderDoughSelector", () => {
   it("Отображается правильное количество элементов", () => {
     loadDoughs(store, dough);
     createComponent({ store });
-    expect(wrapper.findAll('[data-test="dough"')).toHaveLength(dough.length);
+    expect(wrapper.findAll('[data-test="dough"]')).toHaveLength(dough.length);
   });
 
   it("правильно формирует элемент 'тесто'", () => {
     const firstDough = dough[0];
     loadDoughs(store, [firstDough]);
     createComponent({ store });
-    const doughWrapper = wrapper.find('[data-test="dough"');
+    const doughWrapper = wrapper.find('[data-test="dough"]');
     expect(doughWrapper.exists()).toBeTruthy();
     expect(doughWrapper.text()).toContain(firstDough.name);
     expect(doughWrapper.text()).toContain(firstDough.description);
@@ -50,7 +50,7 @@ describe("BuilderDoughSelector", () => {
   it("Правильно отрабатывает клик по кнопке", async () => {
     loadDoughs(store, dough);
     createComponent({ store });
-    await wrapper.find('[data-test="radioButton"').trigger("click");
+    await wrapper.find('[data-test="radioButton"]').trigger("click");
     expect(actions.Builder.setDough).toHaveBeenCalledWith(
       expect.anything(),
       dough[0]
