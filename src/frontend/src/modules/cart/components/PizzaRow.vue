@@ -2,6 +2,7 @@
   <li class="cart-list__item">
     <div class="product cart-list__product">
       <img
+        data-test="pizzaImage"
         src="/public/img/product.svg"
         class="product__img"
         width="56"
@@ -9,18 +10,21 @@
         :alt="pizza.name"
       />
       <div class="product__text">
-        <h2>{{ pizza.name }}</h2>
+        <h2 data-test="pizzaTitle">{{ pizza.name }}</h2>
         <ul>
-          <li>
+          <li data-test="pizzaName">
             {{ pizza.size.name }}, на {{ pizza.dough.prepositional }} тесте
           </li>
-          <li>Соус: {{ pizza.sauce.name.toLowerCase() }}</li>
-          <li>Начинка: {{ ingredients }}</li>
+          <li data-test="pizzaSauce">
+            Соус: {{ pizza.sauce.name.toLowerCase() }}
+          </li>
+          <li data-test="pizzaIngredients">Начинка: {{ ingredients }}</li>
         </ul>
       </div>
     </div>
 
     <ItemCounter
+      data-test="pizzaCounter"
       :title="pizza.name"
       counterClass="cart-list__counter"
       :item-id="pizza.id"
@@ -36,7 +40,7 @@
     />
 
     <div class="cart-list__price">
-      <b>{{ pizza.count * pizza.price }} ₽</b>
+      <b data-test="pizzaPrice">{{ pizza.count * pizza.price }} ₽</b>
     </div>
 
     <div class="cart-list__button">

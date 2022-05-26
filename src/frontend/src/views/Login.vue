@@ -6,11 +6,17 @@
     <div class="sign-form__title">
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
-    <form action="/" method="post" @submit.prevent="signIn">
+    <form
+      data-test="loginForm"
+      action="/"
+      method="post"
+      @submit.prevent="signIn"
+    >
       <div class="sign-form__input">
         <label class="input">
           <span>E-mail</span>
           <input
+            data-test="emailInput"
             type="email"
             name="email"
             placeholder="example@mail.ru"
@@ -24,6 +30,7 @@
         <label class="input">
           <span>Пароль</span>
           <input
+            data-test="passwordInput"
             type="password"
             name="pass"
             placeholder="***********"
@@ -32,7 +39,9 @@
           />
         </label>
       </div>
-      <button type="submit" class="button">Авторизоваться</button>
+      <button data-test="submitButton" type="submit" class="button">
+        Авторизоваться
+      </button>
     </form>
   </div>
 </template>

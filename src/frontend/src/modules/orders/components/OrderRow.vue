@@ -2,11 +2,11 @@
   <section class="sheet order">
     <div class="order__wrapper">
       <div class="order__number">
-        <b>Заказ #{{ order.id }}</b>
+        <b data-test="orderId">Заказ #{{ order.id }}</b>
       </div>
 
       <div class="order__sum">
-        <span>Сумма заказа: {{ totalCost }} ₽</span>
+        <span data-test="orderCost">Сумма заказа: {{ totalCost }} ₽</span>
       </div>
 
       <div class="order__button">
@@ -26,18 +26,24 @@
     </div>
 
     <ul class="order__list">
-      <PizzaRow v-for="pizza in order.pizzas" :pizza="pizza" :key="pizza.id" />
+      <PizzaRow
+        data-test="orderPizza"
+        v-for="pizza in order.pizzas"
+        :pizza="pizza"
+        :key="pizza.id"
+      />
     </ul>
 
     <ul class="order__additional">
       <ProductRow
+        data-test="orderProduct"
         v-for="product in order.products"
         :key="product.id"
         :product="product"
       />
     </ul>
 
-    <p v-if="order.address" class="order__address">
+    <p v-if="order.address" class="order__address" data-test="orderAddress">
       Адрес доставки: {{ address }}
     </p>
     <p v-else class="order__address">Самовывоз</p>

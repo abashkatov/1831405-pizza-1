@@ -12,6 +12,7 @@
         :value="item.alias"
         :checked="item.id === selectedId"
         @click="$emit('changeItem', item.id)"
+        data-test="input"
       />
       <span>{{ item.name }}</span>
     </label>

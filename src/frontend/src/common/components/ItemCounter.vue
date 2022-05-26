@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div class="counter" :class="counterClass">
+    <div class="counter" :class="counterClass" data-test="buttons-outer">
       <button
         type="button"
         class="counter__button counter__button--minus"
         :class="{ 'counter__button--disabled': isMinusDisabled }"
         :disabled="isMinusDisabled"
         @click="minusItem"
+        data-test="button-minus"
       >
         <span class="visually-hidden">Меньше</span>
       </button>
@@ -15,6 +16,7 @@
         name="counter"
         class="counter__input"
         :value="itemCount"
+        data-test="input"
       />
       <button
         type="button"
@@ -25,6 +27,7 @@
         ]"
         :disabled="isPlusDisabled"
         @click="plusItem"
+        data-test="button-plus"
       >
         <span class="visually-hidden">Больше</span>
       </button>

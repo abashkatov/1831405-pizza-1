@@ -1,13 +1,14 @@
 <template>
   <form
+    data-test="addressForm"
     action="/"
     method="post"
     class="address-form address-form--opened sheet"
     @submit.prevent="saveAddress"
   >
     <div class="address-form__header">
-      <b v-if="address.id">Адрес №{{ address.id }}</b>
-      <b v-else>Новый адрес</b>
+      <b data-test="addressName" v-if="address.id">Адрес №{{ address.id }}</b>
+      <b data-test="addressName" v-else>Новый адрес</b>
     </div>
 
     <div class="address-form__wrapper">
@@ -73,6 +74,7 @@
 
     <div class="address-form__buttons">
       <button
+        data-test="removeAddressButton"
         type="button"
         class="button button--transparent"
         @click="removeAddress"

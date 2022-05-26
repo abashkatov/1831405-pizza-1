@@ -6,6 +6,7 @@
       method="post"
       class="layout-form"
       @submit.prevent
+      data-test="formWithPizzas"
     >
       <main class="content cart">
         <div class="container">
@@ -14,12 +15,18 @@
           </div>
 
           <ul class="cart-list sheet">
-            <PizzaRow v-for="pizza in pizzas" :key="pizza.id" :pizza="pizza" />
+            <PizzaRow
+              data-test="pizzaRow"
+              v-for="pizza in pizzas"
+              :key="pizza.id"
+              :pizza="pizza"
+            />
           </ul>
 
           <div class="cart__additional">
             <ul class="additional-list">
               <GoodsRow
+                data-test="productRow"
                 v-for="(good, index) in goods"
                 :key="index"
                 :good="good"
@@ -32,7 +39,12 @@
               <label class="cart-form__select">
                 <span class="cart-form__label">Получение заказа:</span>
 
-                <select name="test" class="select" @change="setDeliveryType">
+                <select
+                  name="test"
+                  class="select"
+                  @change="setDeliveryType"
+                  data-test="addressOptions"
+                >
                   <option value="self">Заберу сам</option>
                   <option value="new">Новый адрес</option>
                   <option
@@ -48,6 +60,7 @@
               <label class="input input--big-label">
                 <span>Контактный телефон:</span>
                 <input
+                  data-test="phoneNumber"
                   type="text"
                   name="tel"
                   placeholder="+7 999-999-99-99"
@@ -56,6 +69,7 @@
                 />
               </label>
               <Address
+                data-test="addressRow"
                 v-if="isAddressVisible"
                 :is-editable="isAddressEditable"
               />
@@ -64,9 +78,15 @@
           </div>
         </div>
       </main>
-      <CartFooter @makeOrder="makeOrderAndShowModal" />
+      <CartFooter data-test="cartFooter" @makeOrder="makeOrderAndShowModal" />
     </form>
-    <form v-else action="#" method="post" class="layout-form">
+    <form
+      v-else
+      action="#"
+      method="post"
+      class="layout-form"
+      data-test="formWithoutPizzas"
+    >
       <main class="content cart">
         <div class="container">
           <div class="cart__title">
@@ -79,7 +99,11 @@
       </main>
     </form>
     <transition name="fade" @after-leave="afterLeaveAnimation">
-      <OrderThanks v-if="showModal" @closePopup="closePopup" />
+      <OrderThanks
+        data-test="orderThanksModal"
+        v-if="showModal"
+        @closePopup="closePopup"
+      />
     </transition>
   </div>
 </template>
@@ -106,13 +130,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("Cart", [
-      "pizzas",
-      "goods",
-      "phone",
-      "address",
-      "deliveryType",
-    ]),
+    ...mapState("Cart", ["pizzas", "phone", "address", "deliveryType"]),
     ...mapState("Goods", ["goods"]),
     ...mapState("Auth", ["user", "addresses"]),
     hasPizzas: function () {
@@ -161,7 +179,7 @@ export default {
       this.showModal = true;
       await this.makeOrder({
         userId: this.user?.id ?? null,
-        deliveryType: this.deliveryType,
+        deliveryType: this.selectedDeliveryType,
       });
     },
     async afterLeaveAnimation() {

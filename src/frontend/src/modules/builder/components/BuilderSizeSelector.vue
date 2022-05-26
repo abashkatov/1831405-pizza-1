@@ -4,12 +4,14 @@
       <h2 class="title title--small sheet__title">Выберите размер</h2>
       <div class="sheet__content diameter">
         <label
+          data-test="sizeElement"
           v-for="size in sizes"
           :key="size.id"
           class="diameter__input"
           :class="`diameter__input--${size.alias}`"
         >
           <input
+            data-test="sizeRadio"
             type="radio"
             name="diameter"
             :value="size.alias"
@@ -17,7 +19,7 @@
             class="visually-hidden"
             @click="setSize(size)"
           />
-          <span>{{ size.name }}</span>
+          <span data-test="sizeName">{{ size.name }}</span>
         </label>
       </div>
     </div>

@@ -2,17 +2,19 @@
   <div class="layout__address">
     <div v-if="!isEdit" class="sheet address-form">
       <div class="address-form__header">
-        <b>Адрес №{{ address.id }}. {{ address.name }}</b>
+        <b data-test="addressCaption"
+          >Адрес №{{ address.id }}. {{ address.name }}</b
+        >
         <div class="address-form__edit">
           <button type="button" class="icon" @click="isEdit = !isEdit">
             <span class="visually-hidden">Изменить адрес</span>
           </button>
         </div>
       </div>
-      <p>
+      <p data-test="addressRow">
         {{ address.street }}, д. {{ address.building }}, кв. {{ address.flat }}
       </p>
-      <small>{{ address.comment }}</small>
+      <small data-test="addressComment">{{ address.comment }}</small>
     </div>
     <AddressForm v-else :address="address" @closeForm="isEdit = false" />
   </div>

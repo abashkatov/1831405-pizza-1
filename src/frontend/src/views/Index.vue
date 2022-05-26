@@ -10,6 +10,7 @@
           <label class="input">
             <span class="visually-hidden">Название пиццы</span>
             <input
+              data-test="inputName"
               type="text"
               name="pizza_name"
               placeholder="Введите название пиццы"

@@ -1,7 +1,8 @@
 <template>
   <div class="content__result">
-    <p>Итого: {{ totalPrice }} ₽</p>
+    <p data-test="price">Итого: {{ totalPrice }} ₽</p>
     <button
+      data-test="buttonAddToCart"
       type="button"
       class="button"
       :class="{ 'button--disabled': !canCook }"
