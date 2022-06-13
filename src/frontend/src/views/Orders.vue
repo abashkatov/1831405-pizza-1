@@ -15,9 +15,12 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import OrderRow from "@/modules/orders/components/OrderRow";
+import { auth } from "@/middlewares";
 
 export default {
   name: "Orders",
+  layout: "AppLayoutProfile",
+  middlewares: [auth],
   components: { OrderRow },
   computed: {
     ...mapState("Orders", ["orders"]),

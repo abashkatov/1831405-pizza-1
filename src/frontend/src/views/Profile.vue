@@ -56,9 +56,12 @@
 import { mapState } from "vuex";
 import AddressRow from "../modules/profile/AddressRow";
 import AddressForm from "../modules/profile/AddressForm";
+import { auth } from "@/middlewares";
 
 export default {
   name: "Profile",
+  layout: "AppLayoutProfile",
+  middlewares: [auth],
   data() {
     return {
       isShowAddressForm: false,
