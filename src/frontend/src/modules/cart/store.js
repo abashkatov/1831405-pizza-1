@@ -4,9 +4,9 @@ import {
   DELETE_ENTITY,
   SET_ENTITY,
   UPDATE_ENTITY,
-} from "../mutation-types";
+} from "@/store/mutation-types";
 import { uniqueId } from "lodash";
-import { pizzaCost } from "../../common/helper";
+import { pizzaCost } from "@/common/helper";
 
 const module = "Cart";
 

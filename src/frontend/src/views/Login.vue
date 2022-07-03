@@ -48,9 +48,12 @@
 
 <script>
 import { mapActions } from "vuex";
+import { isLoggedIn } from "@/middlewares";
 
 export default {
   name: "Login",
+  layout: "AppLayoutBlank",
+  middlewares: [isLoggedIn],
   data() {
     return {
       email: "",

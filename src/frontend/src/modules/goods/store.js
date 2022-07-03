@@ -1,5 +1,5 @@
 import { SET_ENTITY } from "@/store/mutation-types";
-import resources from "../../common/enums/resources";
+import resources from "@/common/enums/resources";
 
 const module = "Goods";
 
