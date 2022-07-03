@@ -1,7 +1,7 @@
 import { SET_ENTITY, DELETE_ENTITY } from "@/store/mutation-types";
 import resources from "@/common/enums/resources";
 import { uniqueId } from "lodash";
-import { pizzaCost } from "../../common/helper";
+import { pizzaCost } from "@/common/helper";
 
 const module = "Orders";
 

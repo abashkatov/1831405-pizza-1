@@ -3,7 +3,7 @@ import {
   DELETE_ENTITY,
   SET_ENTITY,
   UPDATE_ENTITY,
-} from "../mutation-types";
+} from "@/store/mutation-types";
 
 const module = "Auth";
 

@@ -1,13 +1,12 @@
-import Auth from "./auth.store";
-import Builder from "./builder.store";
-import Cart from "./cart.store";
-import Orders from "./orders.store";
-import Goods from "./goods.store";
+// Используем функцию require.context webpack для получения списка файлов системы
+const requireContext = require.context("../../modules/", true, /store\.js$/);
 
-export default {
-  Auth,
-  Builder,
-  Cart,
-  Orders,
-  Goods,
-};
+// Преобразуем каждый файл в модуль vuex
+export default requireContext.keys().reduce((modules, filename) => {
+  const moduleName = filename
+    .split("/")[1]
+    .replace(/^\w/, (c) => c.toUpperCase());
+  modules[moduleName] =
+    requireContext(filename).default || requireContext(filename);
+  return modules;
+}, {});
